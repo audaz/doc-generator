@@ -1,0 +1,82 @@
+Leve em conta as seguintes considerações:
+ - Use fonte Arial , sem negrito , tamanho 10 e cor preta para os parágrafos 
+ - Use fonte Arial , em negrito, tamanho 14 e cor preta para os títulos e subtítulos 
+ - Inclua tod conteúdo de todas as seções no script
+ - Inclua esse comando no ínicio do script: from docx.shared import Pt
+ - Incluar este outro comando no ínicio do scripto from docx.shared import RGBColor; 
+
+Gere um código fonte em python que utilize a biblioteca python-docx para gerar um documento word com o conteúdo abaixo:
+
+
+
+As-built Document of XCorp's Cloud Infrastructure
+
+This document provides an overview of XCorp's cloud infrastructure, which includes Kubernetes, KEDA, NGINX Ingress Controller, AWS CloudFront, AWS S3, AWS ECR, AWS Router53, Oracle Cloud Instance, RabbitMQ, Redis for caching, MySQL Heatwave, Postgres Database, ElasticSearch for logging and APM, and PRTG.
+
+The following sections will cover the architecture, configuration, and deployment of these services, along with any best practices and recommendations for ongoing maintenance and optimization.
+
+1. Architecture
+
+XCorp's cloud infrastructure is designed to be highly available, scalable, and secure. The infrastructure is built on top of AWS and Oracle Cloud, with Kubernetes serving as the container orchestration platform.
+
+1.1 Kubernetes
+
+Kubernetes is used to manage and orchestrate containers across multiple nodes in the cluster. The cluster consists of multiple worker nodes, each running multiple pods, which are the smallest deployable units of computing in Kubernetes.
+
+1.2 KEDA
+
+KEDA (Kubernetes Event-driven Autoscaling) is used to automatically scale pods based on the number of events or messages received by the pod. This allows for fine-grained control over the scaling of applications and ensures that resources are used efficiently.
+
+1.3 NGINX Ingress Controller
+
+NGINX Ingress Controller is used to route traffic to the appropriate pods in the cluster. It acts as a reverse proxy and load balancer, ensuring that traffic is distributed evenly across the cluster.
+
+1.4 AWS CloudFront
+
+AWS CloudFront is used as a content delivery network (CDN) to cache static content and serve it to users from the nearest edge location. This helps to improve the performance of the application and reduce the load on the backend servers.
+
+1.5 AWS S3
+
+AWS S3 is used as a storage service for static content, such as images and videos. It provides high availability and durability, and can be used to store large amounts of data at a low cost.
+
+1.6 AWS ECR
+
+AWS ECR (Elastic Container Registry) is used as a container registry to store and manage container images. It provides secure and scalable storage for container images, and can be used to deploy containers to the cluster.
+
+1.7 AWS Router53
+
+AWS Router53 is used as a DNS service to route traffic to the appropriate IP address. It provides high availability and scalability, and can be used to manage DNS records for the application.
+
+1.8 Oracle Cloud Instance
+
+Oracle Cloud Instance is used as a compute service to run the application. It provides high performance and scalability, and can be used to run workloads that require a high degree of isolation and control.
+
+1.9 RabbitMQ
+
+RabbitMQ is used as a message broker to enable communication between different components of the application. It provides reliable and scalable messaging, and can be used to implement a variety of messaging patterns.
+
+1.10 Redis for caching
+
+Redis is used as a caching service to improve the performance of the application. It provides high-speed data storage and retrieval, and can be used to cache frequently accessed data.
+
+1.11 MySQL Heatwave
+
+MySQL Heatwave is used as a database service to store and manage data. It provides high performance and scalability, and can be used to implement a variety of database patterns.
+
+1.12 Postgres Database
+
+Postgres is used as a database service to store and manage data. It provides high performance and scalability, and can be used to implement a variety of database patterns.
+
+1.13 ElasticSearch for logging and APM
+
+ElasticSearch is used as a logging and monitoring service to collect and analyze logs from the application. It provides real-time search and analytics capabilities, and can be used to implement a variety of monitoring and alerting patterns.
+
+1.14 PRTG
+
+PRTG is used as a monitoring tool to monitor the health and performance of the infrastructure. It provides real-time monitoring and alerting capabilities, and can be used to implement a variety of monitoring and alerting patterns.
+
+2. Configuration
+
+The configuration of the infrastructure is managed using Terraform, an infrastructure as code (IaC) tool. Terraform provides a declarative language for defining the infrastructure, and allows for the creation, modification, and deletion of resources in a repeatable and consistent manner.
+
+The Terraform configuration files are organized into modules, which represent reusable components of the infrastructure. 

@@ -1,0 +1,47 @@
+1. Visão geral
+
+Este documento serve como uma visão geral técnica as-built da infraestrutura de nuvem para o aplicativo Siteblitz, que é hospedado no Microsoft Azure e gerenciado pela AUDAZ TECNOLOGIA para ETRO CONSTRUCTION. A infraestrutura consiste em vários componentes que são usados ​​para garantir a operação suave do aplicativo Siteblitz. Esses componentes incluem Armazenamento de Objetos, Siteblitz Backend, Máquinas Virtuais, Dados, Bancos de Dados SQL, Kubernetes (k3s), Pods, Serviço, Ingress, Rede, Zona DNS, Gateway de rede virtual, Gateway de rede local, Balanceamento de carga (Gateway de Aplicativo), Segurança, WAF, Registro de Contêiner, Gateway VPN, VPN Site-to-site (IPsec), OpenVPN para usuários remotos e VPN com SophosFW.
+
+2. Armazenamento de Objetos
+
+O Armazenamento de Blobs do Azure é usado para armazenar dados não estruturados, como texto e dados binários. Ele foi projetado para armazenar grandes quantidades de dados com alta durabilidade e disponibilidade. A conta de armazenamento está localizada na região Leste dos EUA e é configurada com a opção de replicação LRS. A conta de armazenamento é usada para armazenar imagens, vídeos e outros conteúdos multimídia para o aplicativo Siteblitz.
+
+3. Backend do Siteblitz
+
+O backend do Siteblitz é uma coleção de microsserviços que são implantados no Azure Kubernetes Service (AKS). O backend é responsável por manipular a autenticação do usuário, gerenciar perfis de usuário e processar pagamentos. O backend é implantado como um cluster Kubernetes com três nós. O cluster é configurado com as configurações padrão, incluindo o uso do plug-in de rede CNI do Azure. O backend é implantado como um conjunto de contêineres Docker que são gerenciados pelo Kubernetes.
+
+4. Máquinas virtuais
+
+As máquinas virtuais do Azure são usadas para hospedar o aplicativo Siteblitz e seus serviços de suporte. As máquinas virtuais são implantadas em um Azure Resource Group e são configuradas com o tamanho de VM D1v2. As máquinas virtuais são configuradas com a versão mais recente do Ubuntu Server e são unidas a um domínio do Active Directory. As máquinas virtuais são configuradas com os patches de segurança mais recentes e são protegidas por um firewall.
+
+5. Dados
+
+O Banco de Dados SQL do Azure é usado para armazenar os dados do aplicativo Siteblitz. O banco de dados é configurado com a camada de serviço de uso geral e o nível de desempenho S0. O banco de dados é configurado com a versão mais recente do SQL Server e é protegido por um firewall. O backup do banco de dados é feito diariamente e é configurado com redundância geográfica.
+
+6. Bancos de Dados SQL
+
+O Banco de Dados SQL do Azure é usado para armazenar os dados do aplicativo Siteblitz. O banco de dados é configurado com a camada de serviço de uso geral e o nível de desempenho S0. O banco de dados é configurado com a versão mais recente do SQL Server e é protegido por um firewall. O backup do banco de dados é feito diariamente e é configurado com redundância geográfica.
+
+7. Kubernetes (k3s)
+
+O Serviço Kubernetes do Azure (AKS) é usado para implantar e gerenciar o aplicativo Siteblitz. O AKS é um serviço Kubernetes gerenciado que fornece uma plataforma altamente disponível e escalável para implantar aplicativos em contêineres. O cluster Kubernetes é configurado com três nós e é implantado em um Grupo de Recursos do Azure. O cluster é configurado com as configurações padrão, incluindo o uso do plugin de rede Azure CNI.
+
+8. Pods
+
+Kubernetes Pods são usados ​​para executar os contêineres para o aplicativo Siteblitz. Cada pod é configurado com um endereço IP exclusivo e um conjunto de recursos, como CPU e memória. Os pods são implantados em um cluster Kubernetes e são gerenciados pelo Kubernetes.
+
+9. Serviço
+
+Kubernetes Services são usados ​​para expor o aplicativo Siteblitz à internet. Um serviço é uma abstração lógica que define um conjunto de pods e uma política para acessá-los. O serviço é configurado com um balanceador de carga que distribui o tráfego para os pods. O serviço também é configurado com um conjunto de regras de segurança que definem o tráfego permitido.
+
+10. Ingress
+
+Kubernetes Ingress é usado para rotear o tráfego para o aplicativo Siteblitz. Um ingress é um conjunto de regras que definem como o tráfego deve ser roteado para o aplicativo. O ingresso é configurado com um conjunto de regras que definem o tráfego permitido e os nomes de host que têm permissão para acessar o aplicativo. O ingresso também é configurado com um conjunto de regras de segurança que definem o tráfego permitido.
+
+11. Rede
+
+A Azure Virtual Network é usada para criar uma rede privada para o aplicativo Siteblitz. A rede virtual é configurada com uma sub-rede para o cluster Kubernetes e uma sub-rede para as máquinas virtuais. A rede virtual também é configurada com um conjunto de regras de segurança que definem o tráfego permitido. A rede virtual é conectada à Internet por meio de um Azure VPN Gateway.
+
+12. Zona DNS
+
+A Azure DNS Zone é usada para
