@@ -68,52 +68,54 @@ def create_front_page(document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
+
     document.add_picture('assets\\imagem_capa.png', width=Inches(7))
+
     p = document.add_paragraph('')
     p = document.add_paragraph('')
 
-    paragraph_00 = document.add_paragraph('Documentação - Infraestrutura de TI')
-    # unicode_text = paragraph_00.decode("utf-8", "replace") if isinstance(paragraph_00 , str) else paragraph_00
-    # unidecode(unicode_text)
-    logo_run = paragraph_00.add_run()
-    # logo_run.style.font.bold = True
+    # paragraph_00 = document.add_paragraph('Documentação - Infraestrutura de TI')
+    paragraph_00 = document.add_paragraph()
+    logo_run = paragraph_00.add_run('Documentação - Infraestrutura de TI')
+    logo_run.font.bold = True
+    logo_run.font.size = Pt(16)
     paragraph_00.alignment = WD_ALIGN_PARAGRAPH.CENTER    
+
     p = document.add_paragraph('')
     p = document.add_paragraph('')
-    title_style = paragraph_00.style
-    title_style.font.name = "Arial"
-    # title_style.font.color.rgb = RGBColor(0xffffffff, 0x00, 0x00)
-    title_style.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
-    title_style.font.bold = True
-    title_style.font.size = Pt(49)
-    title_style.element.xml
-    rFonts = title_style.element.rPr.rFonts
-    rFonts.set(qn("w:asciiTheme"), "Arial")    
+
+    # title_style = paragraph_00.style
+    # title_style.font.name = "Arial"
+    # # title_style.font.color.rgb = RGBColor(0xffffffff, 0x00, 0x00)
+    # title_style.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
+    # title_style.font.bold = True
+    # title_style.font.size = Pt(49)
+    # title_style.element.xml
+    # rFonts = title_style.element.rPr.rFonts
+    # rFonts.set(qn("w:asciiTheme"), "Arial")    
 
     # p = document.add_picture('assets\\logo_cliente.png', width=Inches(1.25))
-    logo_run = paragraph_00.add_run()
-    logo_run.add_picture("assets\\logo_cliente.png", width=Inches(1.5)) 
-    paragraph_00.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    p2 = document.add_paragraph('')
+    logo_run_02 = p2.add_run()
+    logo_run_02.add_picture("assets\\logo_cliente.png", width=Inches(1.5)) 
+    p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
-    p = document.add_paragraph('')
-    p = document.add_paragraph('')
-    paragraph_01 = document.add_paragraph('www.audaztecnologia.com.br')
-    title_style_01 = paragraph_01.style
-    title_style_01.font.name = "Arial"
-    # title_style.font.color.rgb = RGBColor(0xffffffff, 0x00, 0x00)
-    title_style_01.font.color.rgb = RGBColor(0x00, 0x00, 0x00)
-    title_style_01.font.bold = True
-    title_style_01.font.size = Pt(12)
-    title_style_01.element.xml    
-    logo_run = paragraph_01.add_run()
-    logo_run.style.font.bold = True
-    paragraph_01.alignment = WD_ALIGN_PARAGRAPH.CENTER    
-    # paragraph_01.style.font.bold = True
+    p  = document.add_paragraph('')
+
+    # document.add_paragraph().add_run('www.audaztecnologia.com.br').font.bold = True  # Funciona
+    p3 = document.add_paragraph()
+    p3.alignment = WD_ALIGN_PARAGRAPH.CENTER    
+    # logo_run_03 = p3.add_run('www.audaztecnologia.com.br').font.bold = True
+    logo_run_03 = p3.add_run('www.audaztecnologia.com.br')
+    logo_run_03.font.bold = True
+    logo_run_03.font.size = Pt(14)
+    
 
     # document.add_page_break()
 
@@ -325,7 +327,7 @@ def main():
     add_content_direct_from_asbuilt(document)
 
     script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    file_name = '_doc5.docx'
+    file_name = '_doc6.docx'
     file_path = os.path.join(script_dir, file_name)
 
     document.save(file_name)
