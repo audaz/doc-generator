@@ -166,8 +166,8 @@ try:
     # Send the message to the model, using a basic inference configuration.
         # modelId="meta.llama2-70b-chat-v1",
     response = client.converse(
-        modelId="meta.llama3-8b-instruct-v1:0",
-        # modelId="amazon.titan-text-premier-v1:0",
+        # modelId="meta.llama3-8b-instruct-v1:0", # Meta llm (Facebook)
+        modelId="amazon.titan-text-premier-v1:0", # Amazon llm
         messages=conversation,
         inferenceConfig={"maxTokens":2048,"stopSequences":[],"temperature":0.7,"topP":0.9},
         additionalModelRequestFields={}

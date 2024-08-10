@@ -271,21 +271,29 @@ def add_arquitetura(document):
 
     paragraphs = content.split('\n')
     for paragraph in paragraphs:
-        if paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
+        if paragraph.startswith('<<'):
+            img = paragraph.replace('<<','').replace('>>','')
+            print(f"{img}")
+            p1 = document.add_picture(f'assets\\{img}', width=Inches(7))
+        elif paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
             document.add_heading(paragraph, level=1)
         else:
             p1 = document.add_paragraph(paragraph)
             logo_run = p1.add_run()
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY   
 
-def add_content_direct_from_asbuilt(document):
-    with open("as-built-02-ptbr.txt", "r" , encoding="utf-8") as file:
+def add_content_direct_from_asbuilt(document,file):
+    with open(file, "r" , encoding="utf-8") as file:
         # user_message += file.read().replace("\n", "")
         content = file.read()
 
     paragraphs = content.split('\n')
     for paragraph in paragraphs:
-        if paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
+        if paragraph.startswith('<<'):
+            img = paragraph.replace('<<','').replace('>>','')
+            print(f"{img}")
+            p1 = document.add_picture(f'assets\\{img}', width=Inches(7))
+        elif paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
             document.add_heading(f"4.{paragraph}", level=2)
         else:
             p1 = document.add_paragraph(paragraph)
@@ -322,9 +330,10 @@ def main():
     # add_content(document)
     # add_content_ia(document)
     # add_content_ia_b(document)
-    add_arquitetura(document)
+    # add_arquitetura(document)
+    add_content_direct_from_asbuilt(document,"input\\arquitetura.txt")
     document.add_heading('4. Infraestrutura', 1)
-    add_content_direct_from_asbuilt(document)
+    add_content_direct_from_asbuilt(document,"input\\as-built-02-ptbr.txt")
 
     script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     file_name = '_doc6.docx'
