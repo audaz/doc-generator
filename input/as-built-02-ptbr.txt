@@ -1,8 +1,13 @@
 Este é um documento as-built para a infraestrutura de nuvem do Azure que foi criada para o cliente ETRO CONSTRUCTION. Esta infraestrutura foi criada para o aplicativo Siteblitz.
 
-<<arquitetura.png>>
+<<Imagem1-2.png>>
 
 1. Armazenamento de objetos
+
+<<Imagem1-3.png>>
+
+
+<<Imagem2-1.png>>
 
 O armazenamento de objetos foi criado para fornecer uma solução de armazenamento escalável e econômica para dados não estruturados, como imagens, vídeos e logs. Ele foi configurado para dimensionar e manipular automaticamente grandes quantidades de dados.
 
@@ -14,9 +19,13 @@ O backend do Siteblitz foi criado usando o Azure Kubernetes Service (AKS) e o k3
 
 As máquinas virtuais foram criadas para hospedar o aplicativo Siteblitz e outros serviços. Elas foram configuradas para usar os discos gerenciados do Azure para armazenamento e foram colocadas em um conjunto de disponibilidade para garantir alta disponibilidade.
 
+<<Imagem2-2.png>>
+
 4. Dados
 
 O armazenamento de dados foi configurado usando bancos de dados SQL do Azure. Os bancos de dados foram configurados para dimensionar e manipular automaticamente alto tráfego. Eles também foram configurados para usar o serviço de backup gerenciado do Azure para proteção de dados.
+
+<<Imagem2-3.png>>
 
 6. Kubernetes (k3s)
 
@@ -26,13 +35,20 @@ O Kubernetes foi usado para gerenciar e orquestrar o aplicativo Siteblitz e outr
 
 Os pods foram criados para executar o aplicativo Siteblitz e outros serviços. Eles foram configurados para usar o serviço Kubernetes gerenciado do Azure (AKS) para dimensionamento automático e alta disponibilidade.
 
+<<Imagem2-4.png>>
+
 7. Serviço
 
 Os serviços foram criados para expor o aplicativo Siteblitz e outros serviços à Internet. Eles foram configurados para usar o serviço Kubernetes gerenciado do Azure (AKS) para dimensionamento automático e alta disponibilidade.
 
+<<Imagem2-5.png>>
+
+
 8. Ingress
 
 O Ingress foi criado para rotear o tráfego para o aplicativo Siteblitz e outros serviços. Ele foi configurado para usar o serviço Kubernetes gerenciado do Azure (AKS) para dimensionamento automático e alta disponibilidade.
+
+<<Imagem2-6.png>>
 
 9. Rede
 

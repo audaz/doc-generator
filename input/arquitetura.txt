@@ -7,7 +7,7 @@ A aplicação web Siteblitz é um sistema de engenharia projetado para gerenciar
 3.1	Arquitetura da Aplicação
 
 
-<<arquitetura.png>>
+<<Imagem1-1.png>>
  
 
 A aplicação Siteblitz composta por três camadas principais:
@@ -25,6 +25,8 @@ A aplicação Siteblitz composta por três camadas principais:
 ESCREVER.
 
 A Azure FrontDoor é utilizada como serviço de roteamento global e balanceamento de carga para a camada de apresentação. Ele fornece escalabilidade automática, alta disponibilidade e proteção contra ataques DDoS. Blob Storage armazena os arquivos estáticos da aplicação, como imagens, vídeos e scripts.
+
+
 
 3.2.2	Backend
 
