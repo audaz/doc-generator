@@ -297,7 +297,7 @@ def add_content_direct_from_asbuilt(document,file):
 
     paragraphs = content.split('\n')
     for paragraph in paragraphs:
-        m = REMatcher(paragraph)
+        # m = REMatcher(paragraph)
         if dbg>0 :print(type(paragraph))
         if dbg>0: print(paragraph)
         if paragraph.startswith('<<'):
@@ -305,18 +305,26 @@ def add_content_direct_from_asbuilt(document,file):
             print(f"{img}")
             p1 = document.add_picture(f'input\\{img}', width=Inches(7))
         # https://stackoverflow.com/questions/2554185/match-groups-in-python
-        elif m := re.match(r'^(\d\.\d\.\d.*)', paragraph):    
-            document.add_heading(f"REGEX_03a_{m.group(0)}", level=3)
-        elif m := re.match(r'^([\s|\t]+)(\d\.\d\.\d)(.*)$', paragraph):    
-            document.add_heading(f"REGEX_03b_{m.group(1)}", level=3)
-        elif m := re.match(r'^\s*(\d\.\d.*)',    paragraph):    
-            document.add_heading(f"REGEX_02_{m.group(0)}", level=2)
-        elif m := re.match(r'^(\d.*)',           paragraph):    
-            document.add_heading(f"REGEX_01_{m.group(0)}", level=1)
+        elif m := re.search(r'^\s*(\d\.\d\.\d.*)$', paragraph):    
+            print(f"REGEX_03b_{m.group(0)}")
+            print(f"REGEX_03b_{m.group(1)}")
+            # print(f"REGEX_03b_{m.group(2)}")
+            document.add_heading(f"{m.group(1)}", level=3)
+        elif m := re.search(r'^(\d\.\d\.\d.*)', paragraph):    
+            document.add_heading(f"{m.group(1)}", level=3)
+        elif m := re.search(r'^\s*(\d\.\d.*)',    paragraph):    
+            document.add_heading(f"{m.group(1)}", level=2)
+        elif m := re.search(r'^\s*(\d\..*)',      paragraph):    
+            document.add_heading(f"{m.group(1)}", level=1)
+        elif m := re.search(r'^---\s*$',      paragraph):    
+            print('add page break')
+            document.add_page_break()
+        elif m := re.search(r'^#',      paragraph):    
+            next
         # elif re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
         #     document.add_heading(f"REGEX{paragraph}", level=3)
-        elif paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
-            document.add_heading(f"{paragraph}", level=2)
+        # elif paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
+        #     document.add_heading(f"{paragraph}", level=2)
         else:
             p1 = document.add_paragraph(paragraph)
             logo_run = p1.add_run()
