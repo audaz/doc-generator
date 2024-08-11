@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 import time
 from docx import Document
-from docx.shared import Pt, Inches, Cm
+from docx.shared import Pt, Inches, Cm, Mm
 from docx.shared import RGBColor
 from docx.oxml.ns import qn
 from docx.enum.text import WD_ALIGN_PARAGRAPH
+from docx2pdf import convert
 
 
 import os, inspect
@@ -18,6 +19,16 @@ from generate_doc_02b import *
 import re
 
 dbg = 0
+
+
+def get_text_width(document):
+    """
+    Returns the text width in mm.
+    """
+    section = document.sections[0]
+    return (section.page_width - section.left_margin - section.right_margin) / 36000
+    # return (section.page_width - section.left_margin - section.right_margin) 
+
 
 def update_toc(docx_file):
     print(f"dispatch\n")
@@ -67,7 +78,10 @@ def create_front_page(document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
 
-    document.add_picture('assets\\imagem_capa.png', width=Inches(7))
+    # document.add_picture('assets\\imagem_capa.png', width=Inches(7))
+    print(f"WIDTH:{Mm(get_text_width(document))}")
+    # document.add_picture('assets\\imagem_capa.png', width=Mm(get_text_width(document)))
+    document.add_picture('assets\\imagem_capa.png', width=Mm(210))
 
     p = document.add_paragraph('')
     p = document.add_paragraph('')
@@ -345,6 +359,10 @@ def generate_content(content_file):
     create_front_page(document)
 
     section = document.sections[0]
+    # Page A4 - https://stackoverflow.com/questions/43724030/how-to-change-page-size-to-a4-in-python-docx
+    section.page_height = Mm(297)
+    section.page_width = Mm(210)
+
     sections = document.sections
     for section in sections:
         section.top_margin = Cm(4)
@@ -358,7 +376,7 @@ def generate_content(content_file):
     logo_run.add_picture("assets\\logo_audaz.png", width=Inches(1.5))    
     pH.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     text_run = pH.add_run()
-    text_run.text = '\t' +  "_______________________________________________________________________________________\n"
+    text_run.text = '\t' +  "__________________________________________________________________________________\n"
     text_run.style.font.color.rgb = RGBColor(58, 19, 19)
 
     text_rum_2 = pH.add_run()
@@ -388,6 +406,8 @@ def generate_content(content_file):
 
     document.save(file_name)
     update_toc(file_path)
+
+    convert(file_name, f"{file_name}.pdf")
 
 def main():
     generate_content("proposta_vxlan.txt")
