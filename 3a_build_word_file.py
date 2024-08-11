@@ -17,6 +17,8 @@ import win32com
 from generate_doc_02b import *
 import re
 
+dbg = 0
+
 def update_toc(docx_file):
     print(f"dispatch\n")
     word = win32com.client.DispatchEx("Word.Application")
@@ -277,6 +279,17 @@ def add_arquitetura(document):
             logo_run = p1.add_run()
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY   
 
+class REMatcher(object):
+    def __init__(self, matchstring):
+        self.matchstring = matchstring
+
+    def match(self,regexp):
+        self.rematch = re.match(regexp, self.matchstring)
+        return bool(self.rematch)
+
+    def group(self,i):
+        return self.rematch.group(i)
+
 def add_content_direct_from_asbuilt(document,file):
     with open(file, "r" , encoding="utf-8") as file:
         # user_message += file.read().replace("\n", "")
@@ -284,18 +297,21 @@ def add_content_direct_from_asbuilt(document,file):
 
     paragraphs = content.split('\n')
     for paragraph in paragraphs:
-        print(type(paragraph))
-        print(paragraph)
+        m = REMatcher(paragraph)
+        if dbg>0 :print(type(paragraph))
+        if dbg>0: print(paragraph)
         if paragraph.startswith('<<'):
             img = paragraph.replace('<<','').replace('>>','')
             print(f"{img}")
             p1 = document.add_picture(f'input\\{img}', width=Inches(7))
         # https://stackoverflow.com/questions/2554185/match-groups-in-python
-        elif m := re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
-            document.add_heading(f"REGEX_03_{m.group(0)}", level=3)
-        elif m := re.match(r'^\s*(\d\.\d\.*)', paragraph):    
+        elif m := re.match(r'^(\d\.\d\.\d.*)', paragraph):    
+            document.add_heading(f"REGEX_03a_{m.group(0)}", level=3)
+        elif m := re.match(r'^([\s|\t]+)(\d\.\d\.\d)(.*)$', paragraph):    
+            document.add_heading(f"REGEX_03b_{m.group(1)}", level=3)
+        elif m := re.match(r'^\s*(\d\.\d.*)',    paragraph):    
             document.add_heading(f"REGEX_02_{m.group(0)}", level=2)
-        elif m := re.match(r'^(\d\.*)', paragraph):    
+        elif m := re.match(r'^(\d.*)',           paragraph):    
             document.add_heading(f"REGEX_01_{m.group(0)}", level=1)
         # elif re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
         #     document.add_heading(f"REGEX{paragraph}", level=3)
