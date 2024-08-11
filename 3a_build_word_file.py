@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import time
 from docx import Document
-from docx.shared import Pt, Inches
+from docx.shared import Pt, Inches, Cm
 from docx.shared import RGBColor
 from docx.oxml.ns import qn
 from docx.enum.text import WD_ALIGN_PARAGRAPH
@@ -117,13 +117,13 @@ def create_front_page(document):
     document.add_page_break()
 
 
-def create_header(document):
+# def create_header(document):
 
-    section = document.sections[0]
-    header = section.header
-    paragraph = header.paragraphs[0]
-    paragraph.text = "Left Text\tCenter Text\tRight Text"
-    paragraph.style = document.styles["Header"]
+#     section = document.sections[0]
+#     header = section.header
+#     paragraph = header.paragraphs[0]
+#     paragraph.text = "Left Text\tCenter Text\tRight Text"
+#     paragraph.style = document.styles["Header"]
 
 def create_toc(doc):
     from docx.oxml.ns import qn
@@ -329,25 +329,39 @@ def add_content_direct_from_asbuilt(document,file):
             p1 = document.add_paragraph(paragraph)
             logo_run = p1.add_run()
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY               
+            p1.paragraph_format.space_after = Pt(2)
 
 def generate_content(content_file):
 
     # Create a new document
     document = Document()
 
+    import docx 
+    styles_element = document.styles.element
+    rpr_default = styles_element.xpath('./w:docDefaults/w:rPrDefault/w:rPr')[0]
+    lang_default = rpr_default.xpath('w:lang')[0]
+    lang_default.set(docx.oxml.shared.qn('w:val'),'pt-BR')
+
     create_front_page(document)
 
     section = document.sections[0]
+    sections = document.sections
+    for section in sections:
+        section.top_margin = Cm(4)
+        section.bottom_margin = Cm(2)
+        section.left_margin = Cm(2)
+        section.right_margin = Cm(2)    
+
     header = section.header
-    paragraph = header.paragraphs[0]
-    logo_run = paragraph.add_run()
+    pH = header.paragraphs[0]
+    logo_run = pH.add_run()
     logo_run.add_picture("assets\\logo_audaz.png", width=Inches(1.5))    
-    paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-    text_run = paragraph.add_run()
-    text_run.text = '\t' +  "_____________________________________________________________________________\n"
+    pH.alignment = WD_ALIGN_PARAGRAPH.RIGHT
+    text_run = pH.add_run()
+    text_run.text = '\t' +  "_______________________________________________________________________________________\n"
     text_run.style.font.color.rgb = RGBColor(58, 19, 19)
 
-    text_rum_2 = paragraph.add_run()
+    text_rum_2 = pH.add_run()
     text_run_2 = '\t'
 
     create_toc(document)
