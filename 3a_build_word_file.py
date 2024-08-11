@@ -7,11 +7,7 @@ from docx.oxml.ns import qn
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 
-# from generate_doc_02 import *
-
-import os
-import inspect
-# import win32com.client
+import os, inspect
 from win32com import client
 
 from docx.oxml import OxmlElement as OE
@@ -19,7 +15,7 @@ from docx.oxml.ns import qn
 import win32com
 
 from generate_doc_02b import *
-# from unidecode import unidecode
+import re
 
 def update_toc(docx_file):
     print(f"dispatch\n")
@@ -105,7 +101,6 @@ def create_front_page(document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
-    p = document.add_paragraph('')
     p  = document.add_paragraph('')
 
     # document.add_paragraph().add_run('www.audaztecnologia.com.br').font.bold = True  # Funciona
@@ -117,7 +112,7 @@ def create_front_page(document):
     logo_run_03.font.size = Pt(14)
     
 
-    # document.add_page_break()
+    document.add_page_break()
 
 
 def create_header(document):
@@ -166,7 +161,7 @@ def create_toc(doc):
     r_element.append(fldChar4)
     p_element = paragraph._p
 
-    document.add_page_break()
+    # document.add_page_break()
 
 
 
@@ -289,23 +284,32 @@ def add_content_direct_from_asbuilt(document,file):
 
     paragraphs = content.split('\n')
     for paragraph in paragraphs:
+        print(type(paragraph))
+        print(paragraph)
         if paragraph.startswith('<<'):
             img = paragraph.replace('<<','').replace('>>','')
             print(f"{img}")
-            p1 = document.add_picture(f'assets\\{img}', width=Inches(7))
+            p1 = document.add_picture(f'input\\{img}', width=Inches(7))
+        # https://stackoverflow.com/questions/2554185/match-groups-in-python
+        elif m := re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
+            document.add_heading(f"REGEX_03_{m.group(0)}", level=3)
+        elif m := re.match(r'^\s*(\d\.\d\.*)', paragraph):    
+            document.add_heading(f"REGEX_02_{m.group(0)}", level=2)
+        elif m := re.match(r'^(\d\.*)', paragraph):    
+            document.add_heading(f"REGEX_01_{m.group(0)}", level=1)
+        # elif re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
+        #     document.add_heading(f"REGEX{paragraph}", level=3)
         elif paragraph.startswith('1.') or paragraph.startswith('2.') or paragraph.startswith('3.') or paragraph.startswith('4.') or paragraph.startswith('5.') or paragraph.startswith('6.') or paragraph.startswith('7.') or paragraph.startswith('8.') or paragraph.startswith('9.') or paragraph.startswith('10.') or paragraph.startswith('11.') or paragraph.startswith('12.') or paragraph.startswith('13.') or paragraph.startswith('14.') or paragraph.startswith('15.') or paragraph.startswith('16.') or paragraph.startswith('17.') or paragraph.startswith('18.') or paragraph.startswith('19.') or paragraph.startswith('20.') or paragraph.startswith('21.') or paragraph.startswith('22.') or paragraph.startswith('23.'):
-            document.add_heading(f"4.{paragraph}", level=2)
+            document.add_heading(f"{paragraph}", level=2)
         else:
             p1 = document.add_paragraph(paragraph)
             logo_run = p1.add_run()
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY               
 
-
-def main():
+def generate_content(content_file):
 
     # Create a new document
     document = Document()
-
 
     create_front_page(document)
 
@@ -317,13 +321,10 @@ def main():
     paragraph.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     text_run = paragraph.add_run()
     text_run.text = '\t' +  "_____________________________________________________________________________\n"
+    text_run.style.font.color.rgb = RGBColor(58, 19, 19)
+
     text_rum_2 = paragraph.add_run()
     text_run_2 = '\t'
-    # text_run.text = '\t' + "My Awesome Header" # For center align of text
-    text_run.style.font.color.rgb = RGBColor(58, 19, 19)
-    # text_run.style = "Heading 2 Char"
-    # paragraph.text = "Left Text\tCenter Text\t<logo audaz>"
-    # paragraph.style = document.styles["Header"]    
 
     create_toc(document)
     format_title_and_subtitles(document)
@@ -331,9 +332,17 @@ def main():
     # add_content_ia(document)
     # add_content_ia_b(document)
     # add_arquitetura(document)
-    add_content_direct_from_asbuilt(document,"input\\arquitetura.txt")
-    document.add_heading('4. Infraestrutura', 1)
-    add_content_direct_from_asbuilt(document,"input\\as-built-02-ptbr.txt")
+    document.add_page_break()
+    # add_content_direct_from_asbuilt(document,"input\\arquitetura.txt")
+    # document.add_heading('4. Infraestrutura', 1)
+    # add_content_direct_from_asbuilt(document,"input\\as-built-02-ptbr.txt")
+    # document.add_heading('5. Esteira de CI/CD', 1)
+    # add_content_direct_from_asbuilt(document,"input\\esteira_ci_cd.txt")
+    # document.add_heading('6. Manual de criação de novas aplicações', 1)
+    # add_content_direct_from_asbuilt(document,"input\\manual.txt")
+
+    add_content_direct_from_asbuilt(document,f"input\\{content_file}")
+
 
     script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     file_name = '_doc6.docx'
@@ -342,5 +351,12 @@ def main():
     document.save(file_name)
     update_toc(file_path)
 
+def main():
+    generate_content("proposta_vxlan.txt")
+    # generate_content("proposta_assembleia.txt")
+    # generate_content("arquitetura.txt")
+    # generate_content("as-built-02-ptbr.txt")
+    # generate_content("esteira_ci_cd.txt")
+    # generate_content("manual.txt")
 if __name__ == "__main__":
     main()

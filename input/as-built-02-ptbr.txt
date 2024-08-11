@@ -1,3 +1,4 @@
+1. Infraestrutura
 Este é um documento as-built para a infraestrutura de nuvem do Azure que foi criada para o cliente ETRO CONSTRUCTION. Esta infraestrutura foi criada para o aplicativo Siteblitz.
 
 <<Imagem1-2.png>>
