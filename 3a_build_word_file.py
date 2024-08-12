@@ -276,7 +276,7 @@ def add_content(document):
 
 
 def add_arquitetura(document):
-    with open("arquitetura.txt", "r", encoding="utf-8") as file:
+    with open("arquitetura.md", "r", encoding="utf-8") as file:
         # user_message += file.read().replace("\n", "")
         content = file.read()
 
@@ -389,13 +389,13 @@ def generate_content(content_file):
     # add_content_ia_b(document)
     # add_arquitetura(document)
     document.add_page_break()
-    # add_content_direct_from_asbuilt(document,"input\\arquitetura.txt")
+    # add_content_direct_from_asbuilt(document,"input\\arquitetura.md")
     # document.add_heading('4. Infraestrutura', 1)
-    # add_content_direct_from_asbuilt(document,"input\\as-built-02-ptbr.txt")
+    # add_content_direct_from_asbuilt(document,"input\\as-built-02-ptbr.md")
     # document.add_heading('5. Esteira de CI/CD', 1)
-    # add_content_direct_from_asbuilt(document,"input\\esteira_ci_cd.txt")
+    # add_content_direct_from_asbuilt(document,"input\\esteira_ci_cd.md")
     # document.add_heading('6. Manual de criação de novas aplicações', 1)
-    # add_content_direct_from_asbuilt(document,"input\\manual.txt")
+    # add_content_direct_from_asbuilt(document,"input\\manual.md")
 
     add_content_direct_from_asbuilt(document,f"input\\{content_file}")
 
@@ -410,11 +410,11 @@ def generate_content(content_file):
     convert(file_name, f"{file_name}.pdf")
 
 def main():
-    generate_content("proposta_vxlan.txt")
-    # generate_content("proposta_assembleia.txt")
-    # generate_content("arquitetura.txt")
-    # generate_content("as-built-02-ptbr.txt")
-    # generate_content("esteira_ci_cd.txt")
-    # generate_content("manual.txt")
+    generate_content("proposta_vxlan.md")
+    # generate_content("proposta_assembleia.md")
+    # generate_content("arquitetura.md")
+    # generate_content("as-built-02-ptbr.md")
+    # generate_content("esteira_ci_cd.md")
+    # generate_content("manual.md")
 if __name__ == "__main__":
     main()
