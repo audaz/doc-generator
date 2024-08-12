@@ -21,13 +21,13 @@ Agradecemos à oportunidade e permanecemos a inteira disposição para quaisquer
  
  
 Atenciosamente,
-#________________________________
+<!-- ________________________________ -->
 Heron Brito                                                                                                     
 Engenheiro de Redes
 Tel.: (21) 98826-5000
 heron@audaztecnologia.com.br
-#www.audaztecnologia.com.br
-#________________________________
+<!-- www.audaztecnologia.com.br -->
+<!-- ________________________________ -->
 ---
  1. Sobre a AUDAZ TECNOLOGIA
 
@@ -78,37 +78,37 @@ Implementar a tecnologia VXLAN (Virtual eXtensible Local Area Network) para este
    - Identificar os aplicativos e serviços que requerem conectividade entre os dois ambientes.
  
 5.2. Planejamento e Design:
-    - Analisar a infraestrutura de rede existente em ambos os datacenters.
-    - Projetar a arquitetura do VXLAN, incluindo switches compatíveis, roteadores, servidores VXLAN Gateway e controladores SDN (Software-Defined Networking), se aplicável.
-    - Definir estratégias para garantir alta disponibilidade e tolerância a falhas na comunicação entre os datacenters.
-    - Criar um plano de implementação
+ - Analisar a infraestrutura de rede existente em ambos os datacenters.
+ - Projetar a arquitetura do VXLAN, incluindo switches compatíveis, roteadores, servidores VXLAN Gateway e controladores SDN (Software-Defined Networking), se aplicável.
+- Definir estratégias para garantir alta disponibilidade e tolerância a falhas na comunicação entre os datacenters.
+ - Criar um plano de implementação
  
 5.3. Configuração da Infraestrutura de Rede:
-    - Configurar switches físicos para suportar VXLAN e Overlay Network.
-    - Implementar roteadores e firewalls para permitir o tráfego entre os datacenters.
-    - Provisionar servidores VXLAN Gateway para realizar a encapsulação e desencapsulação do tráfego VXLAN.
+   - Configurar switches físicos para suportar VXLAN e Overlay Network.
+   - Implementar roteadores e firewalls para permitir o tráfego entre os datacenters.
+   - Provisionar servidores VXLAN Gateway para realizar a encapsulação e desencapsulação do tráfego VXLAN.
  
 5.4. Implementação do VXLAN:
-    - Configurar túneis VXLAN entre os datacenters para estender as VLANs.
-    - Definir VXLAN VNIs (Virtual Network Identifiers) para cada VLAN estendida.
-    - Configurar o plano de controle VXLAN, incluindo a comunicação entre os servidores VXLAN Gateway e os controladores SDN, se aplicável.
+   - Configurar túneis VXLAN entre os datacenters para estender as VLANs.
+   - Definir VXLAN VNIs (Virtual Network Identifiers) para cada VLAN estendida.
+   - Configurar o plano de controle VXLAN, incluindo a comunicação entre os servidores VXLAN Gateway e os controladores SDN, se aplicável.
 5.5. Testes e Validação:
-    - Realizar testes de conectividade entre os datacenters para garantir que as VLANs estejam estendidas corretamente.
-    - Verificar a funcionalidade de failover e recuperação de falhas entre os servidores VXLAN Gateway.
-    - Realizar testes de desempenho para garantir que a infraestrutura VXLAN atenda aos requisitos do cliente.
+   - Realizar testes de conectividade entre os datacenters para garantir que as VLANs estejam estendidas corretamente.
+   - Verificar a funcionalidade de failover e recuperação de falhas entre os servidores VXLAN Gateway.
+   - Realizar testes de desempenho para garantir que a infraestrutura VXLAN atenda aos requisitos do cliente.
  
 5.6. Implementação de Políticas de Segurança:
-    - Implementar políticas de segurança para proteger o tráfego VXLAN entre os datacenters.
-    - Configurar controle de acesso baseado em políticas (Policy-Based Access Control) para restringir o acesso a recursos sensíveis.
+   - Implementar políticas de segurança para proteger o tráfego VXLAN entre os datacenters.
+   - Configurar controle de acesso baseado em políticas (Policy-Based Access Control) para restringir o acesso a recursos sensíveis.
  
 5.7. Treinamento e Documentação:
-    - Fornecer treinamento para a equipe de TI do cliente AMT sobre o gerenciamento e operação do ambiente VXLAN.
-    - Preparar documentação detalhada, incluindo manuais de usuário e procedimentos operacionais padrão.
+   - Fornecer treinamento para a equipe de TI do cliente AMT sobre o gerenciamento e operação do ambiente VXLAN.
+   - Preparar documentação detalhada, incluindo manuais de usuário e procedimentos operacionais padrão.
  
 5.8. Implantação em Produção:
-    - Agendar a implantação em produção conforme o cronograma acordado.
-    - Monitorar o ambiente VXLAN durante a transição para garantir a continuidade dos serviços.
-    - Fornecer suporte pós-implantação para resolver quaisquer problemas ou dúvidas.
+   - Agendar a implantação em produção conforme o cronograma acordado.
+   - Monitorar o ambiente VXLAN durante a transição para garantir a continuidade dos serviços.
+   - Fornecer suporte pós-implantação para resolver quaisquer problemas ou dúvidas.
  
  
  

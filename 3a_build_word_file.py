@@ -333,7 +333,8 @@ def add_content_direct_from_asbuilt(document,file):
         elif m := re.search(r'^---\s*$',      paragraph):    
             print('add page break')
             document.add_page_break()
-        elif m := re.search(r'^#',      paragraph):    
+        # elif m := re.search(r'^#',      paragraph):    
+        elif m := re.search(r'^<!--',      paragraph):    
             next
         # elif re.match(r'^\s*(\d\.\d\.\d.*)', paragraph):    
         #     document.add_heading(f"REGEX{paragraph}", level=3)
