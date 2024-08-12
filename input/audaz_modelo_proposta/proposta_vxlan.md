@@ -45,7 +45,7 @@ Quando você nos contrata para terceirizar o gerenciamento dos importantes recur
 Todas as informações contidas neste documento são CONFIDENCIAIS e disponibilizadas somente para uso interno e restrito da empresa AUDAZ e do CLIENTE. O presente documento inclui descrições sobre as necessidades das empresas envolvidas, tecnologias utilizadas e diferencias competitivos. Tais informações só poderão ser divulgadas com o objetivo de avaliação dos serviços propostos. Sendo assim, nenhuma parte desta proposta poderá ser reproduzida, por quaisquer meios, sem a autorização formal de ambas as partes. 
 A AUDAZ obriga-se a manter o mais completo e absoluto sigilo sobre a proposta e o que será realizado, bem como com relação a qualquer informação a que tenha acesso, não podendo utilizá-las para si ou divulgar, inclusive após o término do contrato da prestação de serviços. De mesma forma o CLIENTE também é responsável pelo sigilo da informação.
 O conhecimento da proposta será restrito somente às pessoas que estejam relacionadas diretamente com sua execução, cuja identificação será de conhecimento prévio do CLIENTE e da AUDAZ.
----
+-
 3. Objetivo
 
 Implementar a tecnologia VXLAN (Virtual eXtensible Local Area Network) para estender as VLANs entre os dois datacenters do cliente AMT, proporcionando alta disponibilidade e tolerância a falhas na comunicação entre os ambientes.

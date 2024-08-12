@@ -8,7 +8,7 @@ A aplicação web Siteblitz é um sistema de engenharia projetado para gerenciar
 3.1	Arquitetura da Aplicação
 
 
-<<Imagem1-1.png>>
+![Imagem1-1.png](Imagem1-1.png)
  
 
 A aplicação Siteblitz composta por três camadas principais:
