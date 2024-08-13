@@ -194,8 +194,10 @@ def add_content_direct_from_markdown(document,directory, file):
         if dbg>0 :print(type(paragraph))
         if dbg>0: print(paragraph)
 
-        if paragraph.startswith('!['):
-            img = paragraph.replace('[','').replace(']','').replace(r'!','')
+        # if paragraph.startswith('!['):
+        if m := re.search(r'^\s*(!\[.*)$', paragraph):    
+            img = m.group(1)
+            img = paragraph.replace('[','').replace(']','').replace(r'!','').replace('\s+','').replace(' ','').replace(' ','').replace(' ','')
             img = img.split('(')[0]
             print(f"IMG: {img}")
             pi1 = document.add_paragraph('')
@@ -229,6 +231,9 @@ def add_content_direct_from_markdown(document,directory, file):
             document.add_heading(f"{m.group(1)}", level=2)
         elif m := re.search(r'^#\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=1)
+        # parse * isso é uma lista
+        elif m := re.search(r'^\*(.*)',      paragraph):    
+            document.add_paragraph(m.group(1), style='List Bullet') 
         elif m := re.search(r'^<!--',      paragraph):    
             next
         elif m := re.search(r'^\|---+(.*)',      paragraph):    
@@ -331,9 +336,10 @@ def generate_content(content_file, directory, title='' , convert_to_pdf=True, cr
 def main():
     # generate_content("proposta_assembleia.md", directory='input\\ten_meetings_modelo_proposta',  title='Software como Serviço (SaaS) para assembléia digital' , 
                     #  convert_to_pdf=False, create_cover=True, create_toc=False)
-    generate_content("manual.md", title='Manual para criação de novos ambientes (DevOps)', directory='input\\metatron_manual',  convert_to_pdf=False)
+    # generate_content("manual.md", title='Manual para criação de novos ambientes (DevOps)', directory='input\\metatron_manual',  convert_to_pdf=True)
+    generate_content("infra.md", title='Infra TEN Meetings', directory='input\\ten_meetings_infra',  convert_to_pdf=True)
     # generate_content("arquitetura.md", directory='input\\metatron_arquitetura',  convert_to_pdf=True)
-    # generate_content("as-built-02-ptbr.md", directory='input\\metatron_infraestrutura',  convert_to_pdf=False)
+    # generate_content("as-built-02-ptbr.md",title='Infraestrutura em nuvem (DevOps)',  directory='input\\metatron_infraestrutura',  convert_to_pdf=False)
     # generate_content("esteira_ci_cd.md", directory='input\\metratron_cid',  convert_to_pdf=True)
     # generate_content("proposta_vxlan.md", directory='input\\audaz_modelo_proposta',  convert_to_pdf=True)
 if __name__ == "__main__":

@@ -1,12 +1,5 @@
-1. Criar um Container Registry no Azure
-
-
-Tabela
-| nome [size=1] | tipo [size=1]| quantidade [size=1]| valor [size=1] |
-|------|------|------------|-------|
-| dsadnsa | coisaudsakndsalk  dklsankldsa nlkdnsa lkdnsa kl;n kslna lsan saknsa ; - saknska sa  <br>- sajknsaklsan - sdsa dsanjsakl nsakdsa - ds ajdnsakd sa- dsa dsakdnsakdns a | 2 | R$ 5,00 |
-| outra | coisa | 88| R$ 5,00 |
-| doido | tipo | 2 | R$ 5,00 |
+5. Manual de criação de novas aplicações
+5.1 - Criar um Container Registry no Azure
 
 - Acessar o Portal do Azure:
 	- Entre no portal do Azure (https://portal.azure.com).
@@ -22,19 +15,26 @@ Tabela
 		- SKU: Escolha entre Basic, Standard ou Premium, dependendo das suas necessidades.
 	- Clique em "Review + Create" e depois em "Create" para concluir a criação.
 
-![manual_1-1.png](manual_1-1.png)
 
-Link da documentação Azure 
+
+
+Link da documentação Azure
 https://learn.microsoft.com/pt-br/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli
 
 
-2. Crie um Self-Hosted Agent no Azure DevOps
 
-- Um Self-Hosted Agent é uma máquina que você configura para ser usada como agente de build e deploy no Azure DevOps, ao invés de utilizar os agentes hospedados pela Microsoft. Isso permite maior controle sobre o ambiente de execução.
-- Preparar a Máquina para o Self-Hosted Agent
+5. 2 Crie um Self-Hosted Agent no Azure DevOps
+
+
+Um Self-Hosted Agent é uma máquina que você configura para ser usada como agente de build e deploy no Azure DevOps, ao invés de utilizar os agentes hospedados pela Microsoft. Isso permite maior controle sobre o ambiente de execução.
+
+Passo 1: Preparar a Máquina para o Self-Hosted Agent
+
 - Escolher o Sistema Operacional:
 	- O Self-Hosted Agent pode ser configurado em Windows, Linux ou macOS. Certifique-se de que a máquina selecionada atende aos requisitos de sistema.
-- Registrar o Self-Hosted Agent no Azure DevOps
+
+Passo 2: Registrar o Self-Hosted Agent no Azure DevOps
+
 - Acessar o Projeto no Azure DevOps:
 	- No portal do Azure DevOps, navegue até o projeto onde deseja configurar o agente.
 - Ir para as Configurações do Projeto:
@@ -45,23 +45,28 @@ https://learn.microsoft.com/pt-br/azure/container-registry/container-registry-ge
 - Adicionar um Novo Agente:
 	- Clique em "New agent" para iniciar o processo de configuração.
 	- Escolha o sistema operacional da máquina onde o agente será configurado.
--  Baixar e Configurar o Agente
-  
+
+Passo 3: Baixar e Configurar o Agente
+
 - Baixar o Agente:
 	- Siga as instruções na tela para baixar o pacote do agente apropriado para o sistema operacional escolhido.
 - Configurar o Agente:
 	- Extraia o pacote do agente em um diretório apropriado.
 	- No terminal ou prompt de comando, navegue até o diretório do agente e execute o comando de configuração fornecido na tela do Azure DevOps, que incluirá o URL do servidor do Azure DevOps e o token de autenticação.
--            Verificar e Testar o Agente
+
+Passo 4: Verificar e Testar o Agente
+
 - Verificar no Azure DevOps:
 	- Após configurar e iniciar o agente, volte ao portal do Azure DevOps e verifique se o agente aparece no pool de agentes com o status "Online".
 
-Link da documentação Azure 
+Link da documentação Azure
 https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=azure-devops&tabs=yaml%2Cbrowser#install
 
 
----
-3. Criar uma Conexão de Serviço no Azure DevOps
+
+
+5.3 Criar uma Conexão de Serviço no Azure DevOps
+
 
 - Acessar o Projeto no Azure DevOps:
 	- Navegue até o projeto onde deseja configurar a conexão.
@@ -78,19 +83,16 @@ https://learn.microsoft.com/en-us/azure/devops/pipelines/agents/agents?view=azur
 	- Selecione a opção Grant access permission to all pipelines para facilitar o acesso ao registro em todos os pipelines do projeto.
 	- Clique em Save para criar a conexão.
 
-Link da documentação Azure 
+Link da documentação Azure
 https://learn.microsoft.com/en-us/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml
 
----
-4. Criar Pipeline de Build e Deploy
+5.4 Criar Pipeline de Build e Deploy
+
 
 Criar o Arquivo YAML:
 - Na raiz do repositório do seu projeto, crie um arquivo chamado azure-pipelines.yml.
 - Abra o arquivo recém-criado e substitua o conteúdo existente (se houver) pelo pipeline YAML fornecido abaixo. Certifique-se de salvar as alterações.
-
-
-
-```yaml
+```
 trigger:
 - workshop-node
 pool:
@@ -108,6 +110,7 @@ stages:
     pool: 'Azure Pipelines'
     steps:
     - checkout: self
+   
     - task: Docker@2
       displayName: 'Login to Docker Registry'
       inputs:
@@ -122,19 +125,19 @@ stages:
         containerRegistry: $(dockerRegistryServiceConnection)
         tags: |
           $(tag)
-  
+ 
   - job: DeployK8s
     dependsOn: BuildAndPushJob
     pool: $(agent-k8s)
     steps:
     - checkout: self
-  
+ 
     - task: Bash@3
       displayName: Check k8s
       inputs:
         targetType: 'inline'
-        script: | 
-          kubectl --kubeconfig=/home/azureuser/.kube/config get no,po,svc,ing -A 
+        script: |
+          kubectl --kubeconfig=/home/azureuser/.kube/config get no,po,svc,ing -A
     - task: Bash@3
       displayName: 'Deploy k8s'
       env:
@@ -147,12 +150,12 @@ stages:
         SUBSCRIPTIONID: $(subscriptionID)
         TENANTID: $(tenantID)
         RESOURCEGROUPNAME: $(resourceGroupName)
-        HOSTEDZONENAME: $(hostedZoneName) 
+        HOSTEDZONENAME: $(hostedZoneName)
         ENVIRONMENT: $(environment)
         NAMEDNS: $(nameDNS)
         SECRET-ACCESS-KEY: $(secret-access-key)
         DOCKERCONFIGJSON: $(dockerconfigjson)
-        DATABASE_PASSWORD: $(database_password) 
+        DATABASE_PASSWORD: $(database_password)
       inputs:
         targetType: 'inline'
         script: |
@@ -162,48 +165,47 @@ stages:
 ```
 
 
----
-5. Crie um Grupo de Variáveis
+5.5. Crie um Grupo de Variáveis
 
-- No Azure DevOps, vá para Pipelines > Library.
-- Clique em + Variable group.
-- Nomeie o grupo como env_api_dev e adicione as variáveis necessárias.
+1. No Azure DevOps, vá para Pipelines > Library.
+2. Clique em + Variable group.
+3. Nomeie o grupo como env_api_dev e adicione as variáveis necessárias.
 
-![manual_1-2.png](manual_1-2.png)
 
- ![manual_1-3.png](manual_1-3.png)
 
-Link da documentação Azure 
+
+
+Link da documentação Azure
 https://learn.microsoft.com/en-us/azure/devops/pipelines/library/variable-groups?view=azure-devops&tabs=azure-pipelines-ui
----
-6. Configure as Variáveis Necessárias para a Funcionalidade do Ambiente
+
+5.6. Configure as Variáveis Necessárias para a Funcionalidade do Ambiente
 
 - Adicione as seguintes variáveis ao grupo env_api_dev:
-	- agent-k8s (nome do Self-Hosted Agent ) 
-	- clientID (ID do cliente (client ID) da identidade atribuída pelo usuário no Azure. Esta identidade precisa ter permissões para manipular registros DNS na sua zona DNS) 
-	- containerRegistry (Login server do Container registry no Azure  )
-	- dockerconfigjson (Username e password do Container registry convertido em Base64  )
+	- agent-k8s (nome do Self-Hosted Agent )
+	- clientID (ID do cliente (client ID) da identidade atribuída pelo usuário no Azure. Esta identidade precisa ter permissões para manipular registros DNS na sua zona DNS)
+	- containerRegistry (Login server do Container registry no Azure )
+	- dockerconfigjson (Username e password do Container registry convertido em Base64 )
 	- dockerRegistryServiceConnection (nome do serviço de conexão com o Container registry )
-	- email (e-mail que será associado aos certificados emitidos pelo Let's Encrypt) 
+	- email (e-mail que será associado aos certificados emitidos pelo Let's Encrypt)
 	- environment ( define o ambiente do Azure que está sendo usado, que no caso é a nuvem pública do Azure )
 	- hostedZoneName (é o nome da zona DNS no Azure que você está usando para seu domínio.)
 	- imageRepository ( nome do Repositorio no Container registry )
 	- nameDNS (nome do registro DNS)
 	- port (porta em que a aplicação será executada)
 	- repository (nome do repositório)
-	- resourceGroupName ( nome do grupo de recursos no Azure onde os seus recursos ) 
+	- resourceGroupName ( nome do grupo de recursos no Azure onde os seus recursos )
 	- subscriptionID (é o ID da assinatura do Azure onde seus recursos estão alocados )
-	- tenantID (é um identificador único atribuído a cada locatário (ou inquilino) no Azure Active Directory (Azure AD). Ele é usado para identificar o locatário ao qual uma assinatura do Azure está associada.) 
--  Configure as Variáveis Necessárias do Projeto
-  
+	- tenantID (é um identificador único atribuído a cada locatário (ou inquilino) no Azure Active Directory (Azure AD). Ele é usado para identificar o locatário ao qual uma assinatura do Azure está associada.)
+
+5.7. Configure as Variáveis Necessárias do Projeto
+
 - Certifique-se de que as variáveis do projeto estão configuradas corretamente no arquivo YAML.
 
-7. Crie um Diretório na Raiz do Projeto Chamado k8s
+5.8. Crie um Diretório na Raiz do Projeto Chamado k8s
 
 - Na raiz do repositório do projeto, crie um diretório chamado k8s.
 - Dentro do diretório k8s, crie um arquivo chamado deploy-k8s.yml.
 - insira o conteúdo abaixo no arquivo deploy-k8s.yml.
-
 ```
 apiVersion: v1
 kind: Namespace
@@ -298,7 +300,7 @@ spec:
     - dns01:
         azureDNS:
           clientID: $CLIENTID
-          clientSecretSecretRef: 
+          clientSecretSecretRef:
             name: cert-manager-azure-secret-key-$ENV
             key: secret-access-key
           subscriptionID: $SUBSCRIPTIONID

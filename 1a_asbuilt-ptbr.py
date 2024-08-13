@@ -23,35 +23,26 @@ model_id = "amazon.titan-text-premier-v1:0"
 # will print ATCAGTGGAAACCCAGTGCTAGAGGATGGAATGACCTTAAATCAGGGACGATATTAAACGGAA
 
 
-user_message = """Aja como se você fosse um DevOps Engeneer na empresa de tecnologia da empresa AUDAZ TECNOLOGIA. Gere um documento técnico as-built de uma infraestrutura de nuvem Azure para o cliente ETRO CONSTRUCTION.
-O nome da aplicação hospedada é Siteblitz
+user_message = """Aja como se você fosse um DevOps Engeneer na empresa de tecnologia AUDAZ TECNOLOGIA. Gere um documento técnico as-built de uma infraestrutura de nuvem Oracle Cloud e AWS para o cliente TEN MEETINGS.
+O nome da aplicação hospedada é 'Assembléia Digital'
 Abaixo estão os componentes de infraestrura Cloud Native que são usados ​​pelo cliente:
 
-- Object Storage	
-- Sitebliz Backend	
-- Virtual machines	
-- Dados	
-- SQL databases	
-- Kubernetes (k3s)	
-- Pods	
-- Service	
-- Ingress	
-- Rede	
-- DNS Zone	
-- Rede Virtual	
-- Virtual network gateway	
-- Local network gateway	
-- Load balancing (Application Gateway)
-- Segurança
-- WAF	
-- Container registry
-- Gateway de VPN
-- VPN Site-to-site (IPsec). ETRO CONSTRUCTION com METATRON
-- VPN Site-to-site (IPsec). ETRO CONSTRUCTION com AUDAZ TECNOLOGIA
-- VPN Site-to-site (IPsec). Etro Produção com METATRON	
-- VPN com SophosFW
-- OpenVPN	para usuários remotos
-
+Servidores virtuais Ubuntu e equipados com 2 vCPUs, 8 GB de RAM e 50 GB de armazenamento SSD na Oracle Cloud
+Load balancers na Oracle Cloud
+OKE na Oracle Cloud. O cluster OKE é configurado com três nós, cada um com 3 vCPUs, 16 GB de RAM e 150 GB de armazenamento SSD.
+Postgres na Oracle Cloud
+Redis cache no Kubernetes
+Subnetes na Oracle Cloud
+WAF na Oracle Cloud
+Oracle Objecto Storage na Oracle Cloud
+AWS S3
+AWS Cloudfront
+ElasticSearch for logging
+ElasticSerch APM no Kubernetes
+Fluentd no Kubernetes
+Prometheus no Kubernetes
+Grafana no Kubernetes
+OpenVPN na Oracle Cloud
 
 
 - Mantenha o comprimento total do documento em menos de 3500 palavras.
@@ -81,9 +72,10 @@ conversation = [
 try:
     # Send the message to the model, using a basic inference configuration.
     response = client.converse(
-        modelId="amazon.titan-text-premier-v1:0",
+        # modelId="amazon.titan-text-premier-v1:0",
+        modelId="meta.llama3-8b-instruct-v1:0", # Meta llm (Facebook)
         messages=conversation,
-        inferenceConfig={"maxTokens":3000,"stopSequences":[],"temperature":0.7,"topP":0.9},
+        inferenceConfig={"maxTokens":2048,"stopSequences":[],"temperature":0.7,"topP":0.9},
         additionalModelRequestFields={}
     )
 
