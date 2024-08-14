@@ -1,5 +1,8 @@
 python-docx
 pywin32
+pygments
+pillow 
+html2image
 #marko.parse
 #evernote
 #llama-index

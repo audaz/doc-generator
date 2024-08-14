@@ -42,13 +42,13 @@ def update_toc(docx_file):
     word.Quit()
 
 
-def create_front_page(title, directory, document):
+def create_front_page(empresa, title, directory, document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
 
-    document.add_picture('assets\\imagem_capa.png', width=Mm(210))
+    document.add_picture(f'assets\\imagem_capa_{empresa}.png', width=Mm(210))
 
     p = document.add_paragraph('')
     p = document.add_paragraph('')
@@ -76,11 +76,14 @@ def create_front_page(title, directory, document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
     p = document.add_paragraph('')
-    p  = document.add_paragraph('')
+    # p  = document.add_paragraph('')
 
     p3 = document.add_paragraph()
     p3.alignment = WD_ALIGN_PARAGRAPH.CENTER    
-    logo_run_03 = p3.add_run('www.audaztecnologia.com.br')
+    if empresa == 'nikos':
+        logo_run_03 = p3.add_run('www.nikos.com.br')
+    else:
+        logo_run_03 = p3.add_run('www.audaztecnologia.com.br')
     logo_run_03.font.bold = True
     logo_run_03.font.size = Pt(14)
 
@@ -191,8 +194,8 @@ def add_content_direct_from_markdown(document,directory, file):
     table_items = ()
 
     for paragraph in paragraphs:
-        if dbg>0 :print(type(paragraph))
-        if dbg>0: print(paragraph)
+        # if dbg>0 :print(type(paragraph))
+        if dbg>=0: print(f"\n{paragraph}")
 
         # if paragraph.startswith('!['):
         if m := re.search(r'^\s*(!\[.*)$', paragraph):    
@@ -244,6 +247,7 @@ def add_content_direct_from_markdown(document,directory, file):
                 print('Tabela já existe...')
             else:
                 table = document.add_table(rows=1, cols=len(re.findall(r'\|', m.group(1))))
+                # table = document.add_table(rows=0, cols=10)
                 table.style = 'Table Grid'
                 table.allow_autofit = True
                 table_created = True
@@ -256,6 +260,7 @@ def add_content_direct_from_markdown(document,directory, file):
                 print('Tabela já existe...')
             else:
                 table = document.add_table(rows=0, cols=table_columns_total)
+                # table = document.add_table(rows=0, cols=10)
                 table.style = 'Table Grid'
                 table.allow_autofit = True
                 table_created = True
@@ -264,7 +269,7 @@ def add_content_direct_from_markdown(document,directory, file):
             row_itens = m.group(1).split('|')
             cells = table.add_row().cells
             for i in range(table_columns_total):
-                print(i)
+                print(f"i:{i}  row_itens[i]:{row_itens[i]}")
                 cells[i].text = row_itens[i]
         else:
             p1 = document.add_paragraph(paragraph)
@@ -272,7 +277,7 @@ def add_content_direct_from_markdown(document,directory, file):
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY               
             p1.paragraph_format.space_after = Pt(2)
 
-def generate_content(content_file, directory, title='' , convert_to_pdf=True, create_cover=True, create_toc=True):
+def generate_content(content_file, directory, empresa='audaz', title='' , convert_to_pdf=True, create_cover=True, create_toc=True):
     script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     file_name = f"{content_file[:-3]}.docx"
     file_path = os.path.join(script_dir, f"{directory}\\{file_name}")
@@ -288,7 +293,7 @@ def generate_content(content_file, directory, title='' , convert_to_pdf=True, cr
     lang_default.set(docx.oxml.shared.qn('w:val'),'pt-BR')
 
     if create_cover :
-        create_front_page(title, directory, document)
+        create_front_page(empresa, title, directory, document)
 
     section = document.sections[0]
     # Page A4 - https://stackoverflow.com/questions/43724030/how-to-change-page-size-to-a4-in-python-docx
@@ -305,7 +310,7 @@ def generate_content(content_file, directory, title='' , convert_to_pdf=True, cr
     header = section.header
     pH = header.paragraphs[0]
     logo_run = pH.add_run()
-    logo_run.add_picture("assets\\logo_audaz.png", width=Inches(1.5))    
+    logo_run.add_picture(f"assets\\logo_{empresa}.png", width=Inches(1.5))    
     pH.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     text_run = pH.add_run()
     text_run.text = '\t' +  "__________________________________________________________________________________\n"
@@ -337,10 +342,12 @@ def main():
     # generate_content("proposta_assembleia.md", directory='input\\ten_meetings_modelo_proposta',  title='Software como Serviço (SaaS) para assembléia digital' , 
                     #  convert_to_pdf=False, create_cover=True, create_toc=False)
     # generate_content("manual.md", title='Manual para criação de novos ambientes (DevOps)', directory='input\\metatron_manual',  convert_to_pdf=True)
-    generate_content("infra.md", title='Infra TEN Meetings', directory='input\\ten_meetings_infra',  convert_to_pdf=True)
+    # generate_content("infra.md", title='Infra TEN Meetings', directory='input\\ten_meetings_infra',  convert_to_pdf=True)
     # generate_content("arquitetura.md", directory='input\\metatron_arquitetura',  convert_to_pdf=True)
     # generate_content("as-built-02-ptbr.md",title='Infraestrutura em nuvem (DevOps)',  directory='input\\metatron_infraestrutura',  convert_to_pdf=False)
     # generate_content("esteira_ci_cd.md", directory='input\\metratron_cid',  convert_to_pdf=True)
     # generate_content("proposta_vxlan.md", directory='input\\audaz_modelo_proposta',  convert_to_pdf=True)
+    # generate_content("dr.md", empresa='nikos', title='Plano de recuperação de Desastre', directory='input\\nikos_dr',  convert_to_pdf=True)
+    generate_content("okit_markdown.md", empresa='nikos', title='Documentação da infraestrutura em nuvem', directory='input\\nikos_dr',  convert_to_pdf=False)
 if __name__ == "__main__":
     main()

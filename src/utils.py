@@ -144,3 +144,16 @@ def test_marko():
     #     time.sleep(1)
     # print(mark.__dict__)
     # time.sleep(100)
+
+def test_pygments():
+    from pygments import highlight
+    from pygments.lexers import PythonLexer
+    from pygments.formatters import HtmlFormatter
+
+    code = 'print "Hello World"'
+    print(highlight(code, PythonLexer(), HtmlFormatter()))
+
+
+if __name__ == "__main__":
+    # main()
+    test_pygments()
