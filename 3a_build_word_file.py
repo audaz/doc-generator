@@ -16,10 +16,19 @@ from pathlib import Path
 
 from docx.oxml import OxmlElement as OE
 from docx.oxml.ns import qn
+from docx.oxml.ns import nsdecls
+from docx.oxml import parse_xml
+
+from src.gen_pi_html2img import gen_code_image
+from src.gen_pillow_mac_style import gen_code_image_windows
+from src.gen_pygments import generate_pygments
+
+from render_marko import parse_content_from_markdown
+
 
 
 dbg = 0
-
+base_dir = 'C:\\Dev\\doc-generator\\'
 
 def update_toc(docx_file):
     print(f"funcion update_toc - dispatch\n")
@@ -48,7 +57,7 @@ def create_front_page(empresa, title, directory, document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
 
-    document.add_picture(f'assets\\imagem_capa_{empresa}.png', width=Mm(210))
+    document.add_picture(f'{base_dir}assets\\imagem_capa_{empresa}.png', width=Mm(210))
 
     p = document.add_paragraph('')
     p = document.add_paragraph('')
@@ -64,9 +73,9 @@ def create_front_page(empresa, title, directory, document):
 
     p2 = document.add_paragraph('')
     logo_run_02 = p2.add_run()
-    l_file = Path(f"{directory}\\logo.png")
+    l_file = Path(f"{base_dir}{directory}\\logo.png")
     if l_file.is_file():
-        logo_run_02.add_picture(f"{directory}\\logo.png", width=Inches(1.5)) 
+        logo_run_02.add_picture(f"{base_dir}{directory}\\logo.png", width=Inches(1.5)) 
     else:
         p = document.add_paragraph('')
     p2.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -137,6 +146,7 @@ def format_title_and_subtitles(document):
     document.styles['Normal'].font.name = 'Arial'
     document.styles['Normal'].font.size = Pt(10)
     document.styles['Normal'].font.bold = False
+    document.styles['Normal'].font.italic = False
     document.styles['Normal'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Normal'].alignment = WD_ALIGN_PARAGRAPH.JUSTIFY
 
@@ -144,6 +154,7 @@ def format_title_and_subtitles(document):
     document.styles['Title'].font.name = 'Arial'
     document.styles['Title'].font.size = Pt(20)
     document.styles['Title'].font.bold = True
+    document.styles['Title'].font.italic = False
     document.styles['Title'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Title'].element.xml
     rFonts = document.styles['Title'].element.rPr.rFonts
@@ -152,6 +163,7 @@ def format_title_and_subtitles(document):
     document.styles['Heading 1'].font.name = 'Arial'
     document.styles['Heading 1'].font.size = Pt(12)
     document.styles['Heading 1'].font.bold = True
+    document.styles['Heading 1'].font.italic = False
     document.styles['Heading 1'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Heading 1'].element.xml
     rFonts = document.styles['Heading 1'].element.rPr.rFonts
@@ -160,6 +172,7 @@ def format_title_and_subtitles(document):
     document.styles['Heading 2'].font.name = 'Arial'
     document.styles['Heading 2'].font.size = Pt(12)
     document.styles['Heading 2'].font.bold = True
+    document.styles['Heading 2'].font.italic = False
     document.styles['Heading 2'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Heading 2'].element.xml
     rFonts = document.styles['Heading 2'].element.rPr.rFonts
@@ -168,6 +181,7 @@ def format_title_and_subtitles(document):
     document.styles['Heading 3'].font.name = 'Arial'
     document.styles['Heading 3'].font.size = Pt(12)
     document.styles['Heading 3'].font.bold = True
+    document.styles['Heading 3'].font.italic = False
     document.styles['Heading 3'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Heading 3'].element.xml
     rFonts = document.styles['Heading 3'].element.rPr.rFonts
@@ -176,6 +190,7 @@ def format_title_and_subtitles(document):
     document.styles['Heading 4'].font.name = 'Arial'
     document.styles['Heading 4'].font.size = Pt(12)
     document.styles['Heading 4'].font.bold = True
+    document.styles['Heading 4'].font.italic = False
     document.styles['Heading 4'].font.color.rgb = RGBColor(0, 0, 0)
     document.styles['Heading 4'].element.xml
     rFonts = document.styles['Heading 4'].element.rPr.rFonts
@@ -183,8 +198,12 @@ def format_title_and_subtitles(document):
 
 
 
-def add_content_direct_from_markdown(document,directory, file):
-    with open(file, "r" , encoding="utf-8") as file:
+
+
+def add_content_direct_from_markdown(document,directory, file_path_directory, file):
+    # with open(file, "r" , encoding="utf-8") as file:
+    with open(f"{file}", "r" , encoding="utf-8") as file:
+    # with open(f"{base_dir}{file}", "r" , encoding="utf-8") as file:
         # user_message += file.read().replace("\n", "")
         content = file.read()
     paragraphs = content.split('\n')
@@ -192,96 +211,241 @@ def add_content_direct_from_markdown(document,directory, file):
     table_created = False
     table_columns_total = 0
     table_items = ()
+    table = [None] * 1000
+    table_count = 0
+    inside_code = False
+    code_creating = False
+    code_text = [None] * 100
+    code_id = 0
+    paragraph_id = 0
 
     for paragraph in paragraphs:
+        paragraph_id = paragraph_id + 1
         # if dbg>0 :print(type(paragraph))
         if dbg>=0: print(f"\n{paragraph}")
 
         # if paragraph.startswith('!['):
-        if m := re.search(r'^\s*(!\[.*)$', paragraph):    
+        if m := re.search(r'^```(.*)',      paragraph):    
+            print('CODE DETECTED...')
+            print(f"{m.group(1)}")
+            inside_code = True            
+            if code_creating == True:
+                code_creating = False            
+                inside_code = False            
+                max, lines, img_file = create_image_code(code_text[code_id], directory,paragraph_id)
+                print(img_file)
+                time.sleep(5)
+                size_max = max * 1.7
+                if size_max >= 85:
+                    size_max = 150 
+                document.add_picture(img_file, width=Mm( size_max ))
+            else:
+                code_creating = True            
+                code_id = code_id + 1
+                code_text[code_id] = ""
+            inside_table = False
+            # time.sleep(1)
+        elif inside_code:
+            print(f'inside_code code_id={code_id}')
+            code_text[code_id] += f"{paragraph}\n"
+            # time.sleep(0.1)
+        elif m := re.search(r'^\s*(!\[.*)$', paragraph): # Parse images   
             img = m.group(1)
-            img = paragraph.replace('[','').replace(']','').replace(r'!','').replace('\s+','').replace(' ','').replace(' ','').replace(' ','')
+            img = paragraph.replace('[','').replace(']','').replace(r'!','').replace(r'\s+','').replace(' ','').replace(' ','').replace(' ','')
             img = img.split('(')[0]
             print(f"IMG: {img}")
             pi1 = document.add_paragraph('')
             pi1.alignment = WD_ALIGN_PARAGRAPH.CENTER            
             run_pi1 = pi1.add_run()
-            run_pi1.add_picture(f'{directory}\\{img}' )
+            # run_pi1.add_picture(f'{base_dir}{directory}\\{img}' )
+            run_pi1.add_picture(f'{file_path_directory}\\{img}' )
+            inside_table = False
+            inside_code = False            
         # https://stackoverflow.com/questions/2554185/match-groups-in-python
         elif m := re.search(r'^\s*([0-9]+\.[0-9]+\.[0-9]+.*)$', paragraph):    
             print(f"REGEX_03b_{m.group(0)}")
             print(f"REGEX_03b_{m.group(1)}")
             # print(f"REGEX_03b_{m.group(2)}")
             document.add_heading(f"{m.group(1)}", level=3)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^([0-9]+\.[0-9]+\.[0-9]+.*)', paragraph):    
             document.add_heading(f"{m.group(1)}", level=3)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^\s*([0-9]+\.[0-9]+.*)',    paragraph):    
             document.add_heading(f"{m.group(1)}", level=2)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^\s*([0-9]+\.\s+.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=1)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^---\s*$',      paragraph):    
             print('add page break')
             document.add_page_break()
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^######\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=6)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^#####\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=5)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^####\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=4)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^###\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=3)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^##\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=2)
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^#\s(.*)',      paragraph):    
             document.add_heading(f"{m.group(1)}", level=1)
+            inside_table = False
+            inside_code = False            
         # parse * isso é uma lista
         elif m := re.search(r'^\*(.*)',      paragraph):    
             document.add_paragraph(m.group(1), style='List Bullet') 
+            inside_table = False
+            inside_code = False            
         elif m := re.search(r'^<!--',      paragraph):    
+            inside_table = False
+            inside_code = False            
             next
-        elif m := re.search(r'^\|---+(.*)',      paragraph):    
+        elif m := re.search(r'^\|\s?---+(.*)',      paragraph):    
             print('TABLE HEADER DETECTED...')
             print(f"{m.group(1)}")
             inside_table = True
+            inside_code = False            
             if table_created:
                 print('Tabela já existe...')
             else:
-                table = document.add_table(rows=1, cols=len(re.findall(r'\|', m.group(1))))
+                table_count = table_count + 1
+                table[table_count] = document.add_table(rows=1, cols=len(re.findall(r'\|', m.group(1))))
                 # table = document.add_table(rows=0, cols=10)
-                table.style = 'Table Grid'
-                table.allow_autofit = True
+                table[table_count].style = 'Table Grid'
+                table[table_count].allow_autofit = True
                 table_created = True
         elif m := re.search(r'^\|(.*)',      paragraph):    
             print('TABLE DETECTED...')
             print(f"{m.group(1)}")
             inside_table = True
+            inside_code = False            
             table_columns_total = len(re.findall(r'\|', m.group(1)))
             if table_created:
                 print('Tabela já existe...')
             else:
-                table = document.add_table(rows=0, cols=table_columns_total)
+                table_count = table_count + 1
+                table[table_count] = document.add_table(rows=0, cols=table_columns_total)
                 # table = document.add_table(rows=0, cols=10)
-                table.style = 'Table Grid'
-                table.allow_autofit = True
+                table[table_count].style = 'Table Grid'
+                table[table_count].allow_autofit = True
                 table_created = True
             print(f"table_columns_total:{table_columns_total}")
-            print(f"col_count = {len(table.columns)}")
+            print(f"col_count = {len(table[table_count].columns)}")
             row_itens = m.group(1).split('|')
-            cells = table.add_row().cells
+            cells = table[table_count].add_row().cells
+
+
             for i in range(table_columns_total):
                 print(f"i:{i}  row_itens[i]:{row_itens[i]}")
-                cells[i].text = row_itens[i]
+                if c := re.search(r'(.*)\[size=(\d+)\]', row_itens[i]):
+                    text = c.group(1)
+                    text = parse_hyperlink(text)
+                    size = int(c.group(2))
+                    print(f'Tamanho customoziado de tabela encontrado. size={size}')
+                    for cell in table[table_count].columns[i].cells:
+                        cell.width = Cm(size)
+                    cells[i].text = text
+                    # time.sleep(1)
+                else:
+                    text = row_itens[i] 
+                    text = parse_hyperlink(text)
+                    text = parse_hyperlink(text)
+                    text = parse_hyperlink(text)
+                    cells[i].text = text 
+                    # Apply color only on row[0]
+                    shading_elm_1 = parse_xml(r'<w:shd {} w:fill="000000"/>'.format(nsdecls('w')))
+                    table[table_count].rows[0].cells[i]._tc.get_or_add_tcPr().append(shading_elm_1)
+                    table[table_count].rows[0].cells[i].paragraphs[0].runs[0].font.color.rgb = RGBColor(255, 255, 255) 
         else:
-            p1 = document.add_paragraph(paragraph)
+            text = parse_hyperlink(paragraph)
+            p1 = document.add_paragraph(text)
             logo_run = p1.add_run()
             p1.alignment = WD_ALIGN_PARAGRAPH.JUSTIFY               
             p1.paragraph_format.space_after = Pt(2)
+            inside_table = False
+            inside_code = False            
 
-def generate_content(content_file, directory, empresa='audaz', title='' , convert_to_pdf=True, create_cover=True, create_toc=True):
-    script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-    file_name = f"{content_file[:-3]}.docx"
-    file_path = os.path.join(script_dir, f"{directory}\\{file_name}")
-    print(f"\\generating file {file_path}...")
+        if inside_table == False:
+            table_created = False
+def parse_hyperlink(text):
+    # if t := re.search(r'(.*)\[().*)\]\(.*)(\)(.*)', text):
+    if t := re.search(r'\[\[([^\]]+)\]\(#([^\)]+)\)\]\(#\[[^\]]+\]\(#([^\)]+)\)\)' , text):
+        if dbg>=0: print(t.group(0))
+        if dbg>=0: print(t.group(1))
+        if dbg>=0: print(t.group(2))
+        if dbg>=0: print(t.group(3))
+        new_text = f"{t.group(1)}"  
+        link = t.group(3)
+        print(f'HYPERLIK DETECTADO NA REGEX1 {new_text} link:{link}')
+        if dbg>=1: time.sleep(2)
+        return new_text        
+    elif t := re.search(r'^(.*)\[(.*)\]\((.*)\)(.*)', text):
+        if dbg>=1: print(t.group(0))
+        if dbg>=1: print(t.group(1))
+        if dbg>=1: print(t.group(2))
+        if dbg>=1: print(t.group(3))
+        if dbg>=1: print(t.group(4))
+        new_text = f"{t.group(1)}{t.group(2)}{t.group(4)}"  
+        link = t.group(3)
+        print(f'HYPERLIK DETECTADO {new_text} link:{link}')
+        # if dbg>=1: time.sleep(2)
+        return new_text
+    else:
+        return text
+
+
+def create_image_code(code_text,directory,img_id):
+    (max, lines, html_file) = generate_pygments(code_text,directory,img_id)
+    # time.sleep(10)
+    img_file = gen_code_image(max, lines, html_file)
+    # gen_code_image_windows()
+    return max, lines, img_file
+
+def generate_content(content_file, directory, empresa='audaz', title='' , custom_file='',  convert_to_pdf=True, create_cover=True, create_toc=True):
+    # script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+    # file_path = os.path.join(script_dir, f"{directory}\\{file_name}")
+    if custom_file != '' :
+        print('Custom file detectada')
+        file_with_output_path = f"{custom_file[:-3]}.docx"
+        file_path_directory, file_path_filename = os.path.split(file_with_output_path)
+        file_with_output_path = f"{file_path_directory}\\output\\{file_path_filename}"
+        file_name = custom_file 
+        directory = file_path_directory
+        content_file = custom_file
+    else:
+        file_name = f"{content_file[:-3]}.docx"
+        file_path_directory = directory
+        file_with_output_path = os.path.join(base_dir, f"{directory}\\output\\{file_name}")
+
+    print(f"Opening file directory {directory}...")
+    print(f"Opening file file_path_directory {file_path_directory}...")
+    print(f"Opening file file_with_output_path {file_with_output_path}...")
+    print(f"Opening file file_path docx (old)  {file_with_output_path}...")
+    print(f"generating file file_name .md {file_name}...")
+    print(f"content_file .md {content_file}...")
+    time.sleep(1)
+
+    if not os.path.exists(f"{file_path_directory}\\output"):
+        os.makedirs(f"{file_path_directory}\\output")
 
     # Create a new document
     document = Document()
@@ -310,7 +474,7 @@ def generate_content(content_file, directory, empresa='audaz', title='' , conver
     header = section.header
     pH = header.paragraphs[0]
     logo_run = pH.add_run()
-    logo_run.add_picture(f"assets\\logo_{empresa}.png", width=Inches(1.5))    
+    logo_run.add_picture(f"{base_dir}assets\\logo_{empresa}.png", width=Inches(1.5))    
     pH.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     text_run = pH.add_run()
     text_run.text = '\t' +  "__________________________________________________________________________________\n"
@@ -324,30 +488,61 @@ def generate_content(content_file, directory, empresa='audaz', title='' , conver
 
     format_title_and_subtitles(document)
 
-    add_content_direct_from_markdown(document,directory,f"{directory}\\{content_file}")
+    if custom_file != '':
+        add_content_direct_from_markdown(document,directory,file_path_directory, custom_file)
+    else:
+        add_content_direct_from_markdown(document,directory,file_path_directory, f"{directory}\\{content_file}")
+    # parse_content_from_markdown(document,directory,f"{directory}\\{content_file}")
 
-    print(f"file_path: {file_path}")
-    document.save(file_path)
+
+    # print(f"file_path_directory: {file_path_directory}")
+    # print(f"file_path: {file_path}")
+    # time.sleep(50)
+
+    document.save(file_with_output_path)
 
     if create_toc:
-        update_toc(file_path)
+        update_toc(file_with_output_path)
 
     if convert_to_pdf:
         print("convert to pdf")
-        pdf_file = f"{file_path[:-5]}.pdf"
+        pdf_file = f"{file_with_output_path[:-5]}.pdf"
         print(f"pdf_file = {pdf_file}")
-        convert(file_path, f"{pdf_file}")
+        convert(file_with_output_path, f"{pdf_file}")
 
-def main():
-    # generate_content("proposta_assembleia.md", directory='input\\ten_meetings_modelo_proposta',  title='Software como Serviço (SaaS) para assembléia digital' , 
-                    #  convert_to_pdf=False, create_cover=True, create_toc=False)
-    # generate_content("manual.md", title='Manual para criação de novos ambientes (DevOps)', directory='input\\metatron_manual',  convert_to_pdf=True)
-    # generate_content("infra.md", title='Infra TEN Meetings', directory='input\\ten_meetings_infra',  convert_to_pdf=True)
-    # generate_content("arquitetura.md", directory='input\\metatron_arquitetura',  convert_to_pdf=True)
-    # generate_content("as-built-02-ptbr.md",title='Infraestrutura em nuvem (DevOps)',  directory='input\\metatron_infraestrutura',  convert_to_pdf=False)
-    # generate_content("esteira_ci_cd.md", directory='input\\metratron_cid',  convert_to_pdf=True)
-    # generate_content("proposta_vxlan.md", directory='input\\audaz_modelo_proposta',  convert_to_pdf=True)
-    # generate_content("dr.md", empresa='nikos', title='Plano de recuperação de Desastre', directory='input\\nikos_dr',  convert_to_pdf=True)
-    generate_content("okit_markdown.md", empresa='nikos', title='Documentação da infraestrutura em nuvem', directory='input\\nikos_dr',  convert_to_pdf=False)
+def main(args):
+    if args.file:
+        if os.path.exists(args.file):
+            generate_content("nao_se_aplica.md", title=args.file , directory='data\\metatron_manual',  convert_to_pdf=True, custom_file=args.file)
+        else:
+            print(f"arquivo não encontrado. {args.file}")
+            exit(1)
+    else:
+        generate_content("manual.md", title='Manual para criação de novos ambientes (DevOps)',  convert_to_pdf=False)
+        # generate_content("proposta_vxlan.md", directory='data\\audaz_modelo_proposta',  convert_to_pdf=True, create_cover=False)
+        # generate_content("arquitetura.md", directory='data\\metatron_arquitetura',  convert_to_pdf=True)
+        # generate_content("as-built-02-ptbr.md",title='Infraestrutura em nuvem (DevOps)',  directory='data\\metatron_infraestrutura',  convert_to_pdf=False)
+        # generate_content("esteira_ci_cd.md", directory='data\\metratron_cid',  convert_to_pdf=True)
+        # generate_content("infra.md", title='Infra TEN Meetings', directory='data\\ten_meetings_infra',  convert_to_pdf=True)
+        # generate_content("Relatório - FinOps TEN.md", title='Relatório - FinOps TEN', directory='data\\ten_relatorio_finops',  convert_to_pdf=True, create_cover=True, create_toc=False)
+        # generate_content("dr.md", empresa='nikos', title='Plano de recuperação de Desastre', directory='data\\nikos_dr',  convert_to_pdf=True)
+        # generate_content("okit_markdown_completo.md", empresa='nikos', title='Documentação da infraestrutura em nuvem', directory='data\\nikos_dr',  convert_to_pdf=False)
+
+        # generate_content("2024-08-15-coracao.md", empresa='audaz', title='Sobre o coração', directory='data\\teste_exemplo\\input',  convert_to_pdf=True, create_cover=True, create_toc=True)
+        # generate_content("exemplo.md", empresa='audaz', title='Exemplo', directory='data\\teste_exemplo',  convert_to_pdf=False, create_cover=False, create_toc=False)
+        # generate_content("proposta_assembleia.md", directory='data\\ten_meetings_modelo_proposta',  title='Software como Serviço (SaaS) para assembléia digital' , 
+                        #  convert_to_pdf=False, create_cover=True, create_toc=False)
 if __name__ == "__main__":
-    main()
+    import argparse
+    parser = argparse.ArgumentParser(description='Gera documentos.')
+    parser.add_argument("--file", "-f", required=False)
+    parser.add_argument("--convert_to_pd", required=False)
+    parser.add_argument("--generate_cover", required=False)
+    parser.add_argument("--create_toc", required=False)
+    parser.add_argument("-a", required=False)
+    parser.add_argument("-b", required=False)
+    # parser.add_argument("filename", ..., required=True)
+    args = parser.parse_args()    
+    print(args)
+    main(args)
+    exit(0)

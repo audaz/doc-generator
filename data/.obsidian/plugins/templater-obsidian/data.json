@@ -1,0 +1,35 @@
+{
+  "command_timeout": 15,
+  "templates_folder": "templates",
+  "templates_pairs": [
+    [
+      "weather",
+      "curl \"wttr.in/Paris?format=3\""
+    ],
+    [
+      "docgen",
+      "python.exe C:\\Dev\\doc-generator\\3a_build_word_file.py -f %file_x% -b %b%"
+    ]
+  ],
+  "trigger_on_file_creation": false,
+  "auto_jump_to_cursor": false,
+  "enable_system_commands": true,
+  "shell_path": "",
+  "user_scripts_folder": "templatesJS",
+  "enable_folder_templates": true,
+  "folder_templates": [
+    {
+      "folder": "",
+      "template": ""
+    }
+  ],
+  "syntax_highlighting": true,
+  "syntax_highlighting_mobile": false,
+  "enabled_templates_hotkeys": [
+    "templates/_docgen.md",
+    "templates/daily quote.md"
+  ],
+  "startup_templates": [
+    ""
+  ]
+}
