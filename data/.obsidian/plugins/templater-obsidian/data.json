@@ -8,7 +8,7 @@
     ],
     [
       "docgen",
-      "python.exe C:\\Dev\\doc-generator\\3a_build_word_file.py -f %file_x% -b %b%"
+      "python.exe C:\\Dev\\doc-generator\\3a_build_word_file.py -f '%file_x%' -b %b%"
     ]
   ],
   "trigger_on_file_creation": false,

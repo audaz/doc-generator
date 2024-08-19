@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "32ba0909b06d1182",
+        "id": "aec50b350dab837d",
         "type": "tabs",
         "children": [
           {
-            "id": "5c3c7cdde0d666da",
+            "id": "d745eb9c3fd660be",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "templates/_docgen.md",
+                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "templates/_docgen.md",
+                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "templates/_docgen.md",
+                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
                 "linksCollapsed": true,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "templates/_docgen.md"
+                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md"
               }
             }
           }
@@ -151,8 +151,23 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "5c3c7cdde0d666da",
+  "active": "d745eb9c3fd660be",
   "lastOpenFiles": [
+    "Untitled 6.md",
+    "ten_relatorio_finops/Relatório - FinOps TEN.md",
+    "Untitled 5.md",
+    "Untitled 4.md",
+    "Untitled 1.md",
+    "Untitled 3.md",
+    "Untitled 8.md",
+    "Untitled 7.md",
+    "Untitled 12.md",
+    "Untitled 11.md",
+    "Untitled 10.md",
+    "Untitled 9.md",
+    "Untitled 2.md",
+    "Untitled.md",
+    "templates/_docgen.md",
     "ten_relatorio_finops/output/Relatório - FinOps TEN.pdf",
     "ten_relatorio_finops/output/mso61D5.tmp",
     "ten_relatorio_finops/output/~$latório - FinOps TEN.docx",
@@ -165,11 +180,8 @@
     "ten_relatorio_finops/output",
     "metatron_arquitetura/output/mso4A3F.tmp",
     "metatron_arquitetura/output/~$quitetura.docx",
-    "metatron_arquitetura/output/~WRL0001.tmp",
-    "ten_relatorio_finops/Relatório - FinOps TEN.md",
     "audaz_modelo_proposta/proposta_vxlan.md",
     "metatron_arquitetura/arquitetura.md",
-    "templates/_docgen.md",
     "metatron_manual/output/output_153.png",
     "metatron_manual/manual.md",
     "metatron_manual/output/output_347.png",
@@ -186,16 +198,6 @@
     "metatron_manual/output/output_340.png",
     "teste_exemplo/prompts/teste1.md",
     "teste_exemplo/prompts/Mais usados.md",
-    "Untitled.md",
-    "teste_exemplo/input/2024-08-15-coracao.md",
-    "teste_exemplo/2024-08-15-coracao.md",
-    "Untitled 9.md",
-    "Untitled 8.md",
-    "~$titled.md",
-    "templates/Data e Hora.md",
-    "Untitled 3.md",
-    "Untitled 1.md",
-    "Untitled 2.md",
-    "templates/_get_filename.md",
-    "2024-08-14.md",
-    "Untit
+    "teste_exemplo/input/2024-08-15-coracao.md"
+  ]
+}
