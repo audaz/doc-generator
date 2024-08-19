@@ -10,10 +10,15 @@ Mensagem:
 
 ```dataview table time-played, length, rating from "games" sort rating desc ```
 
-
+new Notice(notice)
 
 <%*
 const dv = app.plugins.plugins.dataview.api; // Dataview Api
+
+// new Notice(notice)
+
+
+// window.alert("Error: Something went wrong in the note type selection");}
 
 let journalThatHappened = dv.pages('"Journaling"').file.name; // Get all journal in folder journaling
 let journalCurrentNumber = await journalThatHappened.length; // Get the number of journals

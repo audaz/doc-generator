@@ -16,15 +16,6 @@
       "key": "P"
     }
   ],
-  "templater-obsidian:templates/_docgen.md": [
-    {
-      "modifiers": [
-        "Mod",
-        "Shift"
-      ],
-      "key": "P"
-    }
-  ],
   "templater-obsidian:templates/daily quote.md": [
     {
       "modifiers": [
@@ -32,6 +23,15 @@
         "Shift"
       ],
       "key": "Z"
+    }
+  ],
+  "templater-obsidian:templates/_docgen_nikos.md": [
+    {
+      "modifiers": [
+        "Mod",
+        "Shift"
+      ],
+      "key": "P"
     }
   ]
 }

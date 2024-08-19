@@ -8,7 +8,7 @@
     ],
     [
       "docgen",
-      "python.exe C:\\Dev\\doc-generator\\3a_build_word_file.py -f '%file_x%' -b %b%"
+      "python.exe d:\\Dev\\doc-generator\\3a_build_word_file.py -f \"%file_x%\"  --empresa %empresa%"
     ]
   ],
   "trigger_on_file_creation": false,
@@ -26,7 +26,7 @@
   "syntax_highlighting": true,
   "syntax_highlighting_mobile": false,
   "enabled_templates_hotkeys": [
-    "templates/_docgen.md",
+    "templates/_docgen_nikos.md",
     "templates/daily quote.md"
   ],
   "startup_templates": [

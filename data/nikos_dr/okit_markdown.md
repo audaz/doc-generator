@@ -1,8 +1,8 @@
 # Documentação da infraestrutura em nuvem
 
 ## Description
-__Created 2024-8-13 15:33:30__
-Created 2024-8-13 15:33:30
+
+Created 2024-8-13 15:33:30 via OKIT
 
 --------------------------------------
 
@@ -11,17 +11,17 @@ Created 2024-8-13 15:33:30
 #### SUB_MGT_PRIV_ASHBURN_03
 
 
-| Property | Value    |
-| -------- | -------- |
-| Availability Domain | Regional |
-| Compartment     | [management](#management) |
-| Name            | SUB_MGT_PRIV_ASHBURN_03 |
-| Virtual Cloud Network | [VCN_172.29_MANAGEMENT](#vcn_172.29_management) |
-| Private         | True |
-| DNS Label       | subprova3 |
-| CIDR Block      | 172.29.112.0/20 |
-| Route Table     | [[RTB-PRIV](#rtb-priv)](#[rtb-priv](#rtb-priv)) |
-| Security List   | [Default Security List for VCN_172.29_MANAGEMENT](#default-security-list-for-vcn_172.29_management) |
+| Property              | Value                                                                                               |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
+| Availability Domain   | Regional                                                                                            |
+| Compartment           | [management](#management)                                                                           |
+| Name                  | SUB_MGT_PRIV_ASHBURN_03                                                                             |
+| Virtual Cloud Network | [VCN_172.29_MANAGEMENT](#vcn_172.29_management)                                                     |
+| Private               | True                                                                                                |
+| DNS Label             | subprova3                                                                                           |
+| CIDR Block            | 172.29.112.0/20                                                                                     |
+| Route Table           | [[RTB-PRIV](#rtb-priv)](#[rtb-priv](#rtb-priv))                                                     |
+| Security List         | [Default Security List for VCN_172.29_MANAGEMENT](#default-security-list-for-vcn_172.29_management) |
 
 ## Containers
 

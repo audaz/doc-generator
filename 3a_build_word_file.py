@@ -28,7 +28,11 @@ from render_marko import parse_content_from_markdown
 
 
 dbg = 0
-base_dir = 'C:\\Dev\\doc-generator\\'
+# base_dir = 'D:\\Dev\\doc-generator\\'
+# base_dir = f"{os.path.dirname(os.path.realpath(__file__))}\\"
+
+base_dir = os.path.abspath(os.path.realpath(__file__))
+base_dir, file_script = os.path.split(base_dir)
 
 def update_toc(docx_file):
     print(f"funcion update_toc - dispatch\n")
@@ -57,7 +61,7 @@ def create_front_page(empresa, title, directory, document):
     p = document.add_paragraph('')
     p = document.add_paragraph('')
 
-    document.add_picture(f'{base_dir}assets\\imagem_capa_{empresa}.png', width=Mm(210))
+    document.add_picture(f'{base_dir}\\assets\\imagem_capa_{empresa}.png', width=Mm(210))
 
     p = document.add_paragraph('')
     p = document.add_paragraph('')
@@ -202,16 +206,19 @@ def format_title_and_subtitles(document):
 
 def add_content_direct_from_markdown(document,directory, file_path_directory, file):
     # with open(file, "r" , encoding="utf-8") as file:
+    if dbg>=0: print(f"\nFILE: {file}")
     with open(f"{file}", "r" , encoding="utf-8") as file:
     # with open(f"{base_dir}{file}", "r" , encoding="utf-8") as file:
         # user_message += file.read().replace("\n", "")
         content = file.read()
+    # if dbg>=0: print(content)
+    # exit(0)
     paragraphs = content.split('\n')
     inside_table = False
     table_created = False
     table_columns_total = 0
     table_items = ()
-    table = [None] * 1000
+    table = [None] * 2000
     table_count = 0
     inside_code = False
     code_creating = False
@@ -222,7 +229,7 @@ def add_content_direct_from_markdown(document,directory, file_path_directory, fi
     for paragraph in paragraphs:
         paragraph_id = paragraph_id + 1
         # if dbg>0 :print(type(paragraph))
-        if dbg>=0: print(f"\n{paragraph}")
+        if dbg>=1: print(f"\n{paragraph}")
 
         # if paragraph.startswith('!['):
         if m := re.search(r'^```(.*)',      paragraph):    
@@ -320,12 +327,12 @@ def add_content_direct_from_markdown(document,directory, file_path_directory, fi
             inside_code = False            
             next
         elif m := re.search(r'^\|\s?---+(.*)',      paragraph):    
-            print('TABLE HEADER DETECTED...')
-            print(f"{m.group(1)}")
+            if dbg >=1: print('TABLE HEADER DETECTED...')
+            if dbg >=1: print(f"{m.group(1)}")
             inside_table = True
             inside_code = False            
             if table_created:
-                print('Tabela já existe...')
+                if dbg >=1: print('Tabela já existe...')
             else:
                 table_count = table_count + 1
                 table[table_count] = document.add_table(rows=1, cols=len(re.findall(r'\|', m.group(1))))
@@ -334,13 +341,13 @@ def add_content_direct_from_markdown(document,directory, file_path_directory, fi
                 table[table_count].allow_autofit = True
                 table_created = True
         elif m := re.search(r'^\|(.*)',      paragraph):    
-            print('TABLE DETECTED...')
-            print(f"{m.group(1)}")
+            if dbg >=1: print('TABLE DETECTED...')
+            if dbg >=1: print(f"{m.group(1)}")
             inside_table = True
             inside_code = False            
             table_columns_total = len(re.findall(r'\|', m.group(1)))
             if table_created:
-                print('Tabela já existe...')
+                if dbg >=1: print('Tabela já existe...')
             else:
                 table_count = table_count + 1
                 table[table_count] = document.add_table(rows=0, cols=table_columns_total)
@@ -348,14 +355,14 @@ def add_content_direct_from_markdown(document,directory, file_path_directory, fi
                 table[table_count].style = 'Table Grid'
                 table[table_count].allow_autofit = True
                 table_created = True
-            print(f"table_columns_total:{table_columns_total}")
-            print(f"col_count = {len(table[table_count].columns)}")
+            if dbg >=1: print(f"table_columns_total:{table_columns_total}")
+            if dbg >=1: print(f"col_count = {len(table[table_count].columns)}")
             row_itens = m.group(1).split('|')
             cells = table[table_count].add_row().cells
 
 
             for i in range(table_columns_total):
-                print(f"i:{i}  row_itens[i]:{row_itens[i]}")
+                if dbg>=1: print(f"i:{i}  row_itens[i]:{row_itens[i]}")
                 if c := re.search(r'(.*)\[size=(\d+)\]', row_itens[i]):
                     text = c.group(1)
                     text = parse_hyperlink(text)
@@ -389,13 +396,13 @@ def add_content_direct_from_markdown(document,directory, file_path_directory, fi
 def parse_hyperlink(text):
     # if t := re.search(r'(.*)\[().*)\]\(.*)(\)(.*)', text):
     if t := re.search(r'\[\[([^\]]+)\]\(#([^\)]+)\)\]\(#\[[^\]]+\]\(#([^\)]+)\)\)' , text):
-        if dbg>=0: print(t.group(0))
-        if dbg>=0: print(t.group(1))
-        if dbg>=0: print(t.group(2))
-        if dbg>=0: print(t.group(3))
+        if dbg>=1: print(t.group(0))
+        if dbg>=1: print(t.group(1))
+        if dbg>=1: print(t.group(2))
+        if dbg>=1: print(t.group(3))
         new_text = f"{t.group(1)}"  
         link = t.group(3)
-        print(f'HYPERLIK DETECTADO NA REGEX1 {new_text} link:{link}')
+        if dbg>=1: print(f'HYPERLIK DETECTADO NA REGEX1 {new_text} link:{link}')
         if dbg>=1: time.sleep(2)
         return new_text        
     elif t := re.search(r'^(.*)\[(.*)\]\((.*)\)(.*)', text):
@@ -406,7 +413,7 @@ def parse_hyperlink(text):
         if dbg>=1: print(t.group(4))
         new_text = f"{t.group(1)}{t.group(2)}{t.group(4)}"  
         link = t.group(3)
-        print(f'HYPERLIK DETECTADO {new_text} link:{link}')
+        if dbg>=1: print(f'HYPERLIK DETECTADO {new_text} link:{link}')
         # if dbg>=1: time.sleep(2)
         return new_text
     else:
@@ -424,13 +431,18 @@ def generate_content(content_file, directory, empresa='audaz', title='' , custom
     # script_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
     # file_path = os.path.join(script_dir, f"{directory}\\{file_name}")
     if custom_file != '' :
-        print('Custom file detectada')
+        print('Custom file detectado')
         file_with_output_path = f"{custom_file[:-3]}.docx"
-        file_path_directory, file_path_filename = os.path.split(file_with_output_path)
+        file_with_output_path = os.path.abspath(file_with_output_path)
+        file_path_directory , file_path_filename = os.path.split(file_with_output_path)
+        file_path_directory = f"{file_path_directory}" + "\\"
+
         file_with_output_path = f"{file_path_directory}\\output\\{file_path_filename}"
-        file_name = custom_file 
+        # file_name = custom_file 
+        file_name = file_with_output_path 
         directory = file_path_directory
-        content_file = custom_file
+        # content_file = custom_file
+        content_file = file_with_output_path
     else:
         file_name = f"{content_file[:-3]}.docx"
         file_path_directory = directory
@@ -474,7 +486,7 @@ def generate_content(content_file, directory, empresa='audaz', title='' , custom
     header = section.header
     pH = header.paragraphs[0]
     logo_run = pH.add_run()
-    logo_run.add_picture(f"{base_dir}assets\\logo_{empresa}.png", width=Inches(1.5))    
+    logo_run.add_picture(f"{base_dir}\\assets\\logo_{empresa}.png", width=Inches(1.5))    
     pH.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     text_run = pH.add_run()
     text_run.text = '\t' +  "__________________________________________________________________________________\n"
@@ -511,9 +523,27 @@ def generate_content(content_file, directory, empresa='audaz', title='' , custom
         convert(file_with_output_path, f"{pdf_file}")
 
 def main(args):
-    if args.file:
-        if os.path.exists(args.file):
-            generate_content("nao_se_aplica.md", title=args.file , directory='data\\metatron_manual',  convert_to_pdf=True, custom_file=args.file)
+    print(f"args2:{args}")
+    print(f"args2.file:{args.file}")    
+    file = args.file
+    empresa = args.empresa
+    # file = file.replace('\\','\\\\')
+    file = file.replace('\"','')
+    print(f"args3:{file}")
+    if file:
+        # exit(0)
+        # if os.path.exists(f"\"{file}\""):
+        if os.path.exists(file):
+            # exit(0)
+            if empresa:
+                print(type(file))
+                print(type(empresa))
+                print(file)
+                print(empresa)
+                generate_content("nao_se_aplica.md", title=args.file , directory='data\\nao_sem_aplica',  convert_to_pdf=True, custom_file=file, empresa=args.empresa)
+            else:
+                generate_content("nao_se_aplica.md", title=args.file , directory='data\\nao_se_aplica',  convert_to_pdf=True, custom_file=file)
+
         else:
             print(f"arquivo não encontrado. {args.file}")
             exit(1)
@@ -536,6 +566,7 @@ if __name__ == "__main__":
     import argparse
     parser = argparse.ArgumentParser(description='Gera documentos.')
     parser.add_argument("--file", "-f", required=False)
+    parser.add_argument("--empresa", "-e", required=False)
     parser.add_argument("--convert_to_pd", required=False)
     parser.add_argument("--generate_cover", required=False)
     parser.add_argument("--create_toc", required=False)
@@ -543,6 +574,7 @@ if __name__ == "__main__":
     parser.add_argument("-b", required=False)
     # parser.add_argument("filename", ..., required=True)
     args = parser.parse_args()    
-    print(args)
+    print(f"args:{args}")
+    print(f"args.file:{args.file}")
     main(args)
     exit(0)

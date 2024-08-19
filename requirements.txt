@@ -3,6 +3,7 @@ pywin32
 pygments
 pillow 
 html2image
+marko
 #marko.parse
 #evernote
 #llama-index

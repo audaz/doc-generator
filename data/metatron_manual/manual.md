@@ -1,4 +1,8 @@
-1. Criar um Container Registry no Azure
+### 1. Criar um Container Registry no Azure
+
+1. dsadsa
+1. sda
+2. 1sdas
 
 
 - Acessar o Portal do Azure:
@@ -20,6 +24,7 @@
 Link da documentação Azure 
 https://learn.microsoft.com/pt-br/azure/container-registry/container-registry-get-started-portal?tabs=azure-cli
 
+---
 
 2. Crie um Self-Hosted Agent no Azure DevOps
 

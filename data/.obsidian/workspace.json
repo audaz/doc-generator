@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "aec50b350dab837d",
+        "id": "fcf20e6b65bb6de6",
         "type": "tabs",
         "children": [
           {
-            "id": "d745eb9c3fd660be",
+            "id": "7f0032f801f6adcc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
+                "file": "metatron_manual/manual 2.md",
                 "mode": "source",
                 "backlinks": false,
                 "source": false
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
+                "file": "metatron_manual/manual 2.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md",
+                "file": "metatron_manual/manual 2.md",
                 "linksCollapsed": true,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ten_relatorio_finops/Relatório - FinOps TEN.md"
+                "file": "metatron_manual/manual 2.md"
               }
             }
           }
@@ -151,53 +151,53 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d745eb9c3fd660be",
+  "active": "7f0032f801f6adcc",
   "lastOpenFiles": [
-    "Untitled 6.md",
+    "metatron_manual/manual.md",
+    "metatron_manual/manual 2.md",
+    "metatron_manual/output/~$manual.docx",
+    "output/Untitled 2.pdf",
+    "nikos_dr/output/~$it_markdown.docx",
+    "nikos_teste/output/~$okit.docx",
+    "Untitled 2.md",
+    "output/mso99B0.tmp",
+    "output/mso9828.tmp",
+    "output/~$titled 2.docx",
+    "output/~WRD0001.tmp",
+    "nikos_dr/okit_markdown.md",
+    "nikos_dr/output/msoB8D5.tmp",
+    "nikos_dr/output/msoB3D3.tmp",
+    "nikos_dr/dr.md",
+    "nikos_dr/Imagem1.png",
+    "nikos_dr/logo.png",
+    "templates/_docgen_nikos.md",
+    "templates/_docgen_audaz.md",
+    "templates/message_test.md",
+    "templates/Notice.md",
+    "templates/characterGoal.md",
+    "Untitled 1.md",
+    "nikos_teste/okit.md",
+    "nikos_teste/okit_full.md",
+    "Untitled.md",
+    "output.png",
+    "teste_exemplo/input/2024-08-15-coracao.md",
+    "teste_exemplo/input/exemplo.md",
+    "templates/_get_filename.md",
     "ten_relatorio_finops/Relatório - FinOps TEN.md",
+    "Untitled 6.md",
     "Untitled 5.md",
     "Untitled 4.md",
-    "Untitled 1.md",
     "Untitled 3.md",
     "Untitled 8.md",
     "Untitled 7.md",
     "Untitled 12.md",
     "Untitled 11.md",
-    "Untitled 10.md",
-    "Untitled 9.md",
-    "Untitled 2.md",
-    "Untitled.md",
-    "templates/_docgen.md",
-    "ten_relatorio_finops/output/Relatório - FinOps TEN.pdf",
-    "ten_relatorio_finops/output/mso61D5.tmp",
-    "ten_relatorio_finops/output/~$latório - FinOps TEN.docx",
-    "ten_relatorio_finops/output/~WRD0000.tmp",
-    "ten_relatorio_finops/output/Relatório - FinOps TEN.docx",
     "ten_relatorio_finops/output/output_67.png",
-    "ten_relatorio_finops/output/output_67.html",
     "ten_relatorio_finops/output/output_59.png",
-    "ten_relatorio_finops/output/output_59.html",
-    "ten_relatorio_finops/output",
-    "metatron_arquitetura/output/mso4A3F.tmp",
-    "metatron_arquitetura/output/~$quitetura.docx",
-    "audaz_modelo_proposta/proposta_vxlan.md",
-    "metatron_arquitetura/arquitetura.md",
     "metatron_manual/output/output_153.png",
-    "metatron_manual/manual.md",
     "metatron_manual/output/output_347.png",
     "metatron_manual/output/output_315.png",
     "metatron_manual/output/output_285.png",
-    "templates/Notice.md",
-    "templates/daily quote.md",
-    "templates/Add block.md",
-    "templates/New note.md",
-    "templates/Teste1.md",
-    "metatron_manual/output/output_345.png",
-    "metatron_manual/output/output_313.png",
-    "metatron_manual/output/output_284.png",
-    "metatron_manual/output/output_340.png",
-    "teste_exemplo/prompts/teste1.md",
-    "teste_exemplo/prompts/Mais usados.md",
-    "teste_exemplo/input/2024-08-15-coracao.md"
+    "metatron_manual/output/output_345.png"
   ]
 }
