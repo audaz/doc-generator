@@ -1,6 +1,6 @@
 {
   "command_timeout": 15,
-  "templates_folder": "templates",
+  "templates_folder": "",
   "templates_pairs": [
     [
       "weather",

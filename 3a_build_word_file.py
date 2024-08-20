@@ -447,6 +447,7 @@ def generate_content(content_file, directory, empresa='audaz', title='' , custom
         file_name = f"{content_file[:-3]}.docx"
         file_path_directory = directory
         file_with_output_path = os.path.join(base_dir, f"{directory}\\output\\{file_name}")
+        file_path_directory_new , file_path_filename = os.path.split(file_with_output_path)
 
     print(f"Opening file directory {directory}...")
     print(f"Opening file file_path_directory {file_path_directory}...")
@@ -467,6 +468,11 @@ def generate_content(content_file, directory, empresa='audaz', title='' , custom
     rpr_default = styles_element.xpath('./w:docDefaults/w:rPrDefault/w:rPr')[0]
     lang_default = rpr_default.xpath('w:lang')[0]
     lang_default.set(docx.oxml.shared.qn('w:val'),'pt-BR')
+
+    if title == '':
+        title = file_path_filename[:-5]
+        print(f'Redefinindo título:  {title}  ...')
+        # time.sleep(20)
 
     if create_cover :
         create_front_page(empresa, title, directory, document)
@@ -540,9 +546,9 @@ def main(args):
                 print(type(empresa))
                 print(file)
                 print(empresa)
-                generate_content("nao_se_aplica.md", title=args.file , directory='data\\nao_sem_aplica',  convert_to_pdf=True, custom_file=file, empresa=args.empresa)
+                generate_content("nao_se_aplica.md", directory='data\\nao_sem_aplica',  convert_to_pdf=True, custom_file=file, empresa=args.empresa)
             else:
-                generate_content("nao_se_aplica.md", title=args.file , directory='data\\nao_se_aplica',  convert_to_pdf=True, custom_file=file)
+                generate_content("nao_se_aplica.md", directory='data\\nao_se_aplica',  convert_to_pdf=True, custom_file=file)
 
         else:
             print(f"arquivo não encontrado. {args.file}")
