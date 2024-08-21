@@ -39,13 +39,13 @@ Este documento pode ser encontrado na rede corporativa da AUDAZ, contate o Geren
 
 Histórico
 
-|                 |          |                   |             |
-| --------------- | -------- | ----------------- | ----------- |
-| Data da revisão | Ver/Rev. | Resumo da mudança | Autor       |
-| 01/03/2024      | rev01    | Esqueleto inicial | Heron Brito |
-| 31/03/2024      | rev02    | Versão inicial    | Heron Brito |
-| 08/04/2024      | rev03    | Ajustes           | Heron Brito |
-|                 |          |                   |             |
+|          |                 |                   |             |
+| -------- | --------------- | ----------------- | ----------- |
+| Ver/Rev. | Data da revisão | Resumo da mudança | Autor       |
+| rev01    | 01/03/2024      | Esqueleto inicial | Heron Brito |
+| rev02    | 31/03/2024      | Versão inicial    | Heron Brito |
+| rev03    | 08/04/2024      | Ajustes           | Heron Brito |
+|          |                 |                   |             |
 
 
 # 2.       Resumo executivo

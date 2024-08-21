@@ -11,12 +11,9 @@
             "id": "07ff6ad9893502f3",
             "type": "leaf",
             "state": {
-              "type": "markdown",
+              "type": "pdf",
               "state": {
-                "file": "ten_meetings_modelo_proposta/proposta_assembleia.md",
-                "mode": "source",
-                "backlinks": false,
-                "source": false
+                "file": "amt_assement/Avaliação de TI rev03.pdf"
               }
             }
           }
@@ -86,7 +83,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "ten_meetings_modelo_proposta/proposta_assembleia.md",
+                "file": "amt_assement/Avaliação de TI rev03.pdf",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +100,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "ten_meetings_modelo_proposta/proposta_assembleia.md",
+                "file": "amt_assement/Avaliação de TI rev03.pdf",
                 "linksCollapsed": true,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +123,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "ten_meetings_modelo_proposta/proposta_assembleia.md"
+                "file": "amt_assement/Avaliação de TI rev03.pdf"
               }
             }
           }
@@ -153,6 +150,8 @@
   },
   "active": "07ff6ad9893502f3",
   "lastOpenFiles": [
+    "amt_assement/Relatório de Avaliação de infraestrutura de TI.md",
+    "ten_meetings_modelo_proposta/proposta_assembleia.md",
     "metatron_manual/output/~$manual.docx",
     "metatron_infraestrutura/output/Infraestrutura.docx",
     "metatron_infraestrutura/output/Infraestrutura.md",
@@ -175,7 +174,6 @@
     "metatron_infraestrutura/output/~WRD0000.tmp",
     "metratron_cid/output/esteira_ci_cd.pdf",
     "metratron_cid/esteira_ci_cd.md",
-    "metratron_cid/output/msoE090.tmp",
     "metatron_manual/manual 2.md",
     "metatron_manual/manual.md",
     "Untitled 2.md",
@@ -197,7 +195,6 @@
     "ten_relatorio_finops/Relatório - FinOps TEN.md",
     "Untitled 6.md",
     "Untitled 5.md",
-    "Untitled 4.md",
-    "Untitled 3.md"
+    "Untitled 4.md"
   ]
 }
